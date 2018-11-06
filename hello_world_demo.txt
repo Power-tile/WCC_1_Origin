@@ -1,2 +1,2 @@
-Hello, C++!
+Hello, Pascal!
 // This is a traditional saying in the coding world!!

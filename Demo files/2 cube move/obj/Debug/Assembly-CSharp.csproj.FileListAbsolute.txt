@@ -166,3 +166,7 @@ C:\Users\hsx\Documents\2 cube move\obj\Debug\Assembly-CSharp.csproj.CoreCompileI
 C:\Users\hsx\Documents\2 cube move\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 C:\Users\hsx\Documents\2 cube move\obj\Debug\Assembly-CSharp.dll
 C:\Users\hsx\Documents\2 cube move\obj\Debug\Assembly-CSharp.pdb
+E:\Moonshot Academy\2018.9 - 2019.2\WannaLaugh Computer Club (WCC)\Git Repo\WCC_1\WCC_1_Origin\Demo files\2 cube move\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+E:\Moonshot Academy\2018.9 - 2019.2\WannaLaugh Computer Club (WCC)\Git Repo\WCC_1\WCC_1_Origin\Demo files\2 cube move\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
+E:\Moonshot Academy\2018.9 - 2019.2\WannaLaugh Computer Club (WCC)\Git Repo\WCC_1\WCC_1_Origin\Demo files\2 cube move\obj\Debug\Assembly-CSharp.dll
+E:\Moonshot Academy\2018.9 - 2019.2\WannaLaugh Computer Club (WCC)\Git Repo\WCC_1\WCC_1_Origin\Demo files\2 cube move\obj\Debug\Assembly-CSharp.pdb

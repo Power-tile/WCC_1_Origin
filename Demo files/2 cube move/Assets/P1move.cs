@@ -7,23 +7,15 @@ public class P1move : MonoBehaviour {
     Vector3 position;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         position = this.transform.position;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
+        if (Input.GetKeyDown(KeyCode.A)) {
+            Vector3 position = this.transform.position;
             position.x--;
-            if((position.x<0)&& (position.x>-10) && (position.z < 5) && (position.x > -5))
-            {
-                GetComponent<Renderer>().material.color = new Color(0, 0, 0);
-            }
-            else
-            {
-                GetComponent<Renderer>().material.color = new Color(85, 85, 85);
-            }
             this.transform.position = position;
         }
         if (Input.GetKeyDown(KeyCode.D))

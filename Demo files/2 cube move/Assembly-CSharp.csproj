@@ -61,8 +61,38 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\AutoBlink.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\AutoBlinkforSD.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\CameraController.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\FaceUpdate.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\IdleChanger.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\IKCtrlRightHand.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\RandomWind.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\SpringBone.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\SpringCollider.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\SpringManager.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\ThirdPersonCamera.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\Scripts\UnityChanControlScriptWithRgidBody.cs" />
+    <Compile Include="Assets\Cubed's Unity Shaders\UnityChan\SplashScreen\Scripts\SplashScreen.cs" />
+    <Compile Include="Assets\GiveMaterial.cs" />
     <Compile Include="Assets\P1move.cs" />
     <Compile Include="Assets\P2move.cs" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\Shaders\Simple Gradient Sky.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku_ds.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\Shaders\Unit Shadowed.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\Shaders\Flat Lit Toon Distance Fade.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye_blend.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair_ds.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_akarami_blend.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\Shaders\Flat Lit Toon.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Stage\Shader\AlphaMask.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eyelash_blend.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\Shaders\Flat Lit Toon Rainbow.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada.shader" />
+    <None Include="Assets\Cubed's Unity Shaders\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada_blend.shader" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/Moonshot Academy/2018.9 - 2019.2/WannaLaugh Computer Club (WCC)/Git Repo/WCC_1/WCC_1_Origin/Demo files/2 cube move/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

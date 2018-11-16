@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameEnding : MonoBehaviour {
+    public static bool end = false;
 
 	// Use this for initialization
 	void Start () {
-		
+        
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
         GameObject P1 = GameObject.Find("P1");
         GameObject P2 = GameObject.Find("P2");
         if(P1.transform.position.y<=0)
@@ -20,11 +21,12 @@ public class GameEnding : MonoBehaviour {
             GameObject Button = GameObject.Find("GameOver");
             Text text = Button.transform.Find("Text").GetComponent<Text>();
             text.text = "The White Player Wins!";
-            P1.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            //P1.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             P2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
             foreach (GameObject t in tiles)
             {
+                if (t.transform.position.y < 0f) continue;
                 t.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
         }
@@ -35,10 +37,11 @@ public class GameEnding : MonoBehaviour {
             Text text = Button.transform.Find("Text").GetComponent<Text>();
             text.text = "The Black Player Wins!";
             P1.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            P2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            //P2.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
             foreach (GameObject t in tiles)
             {
+                if (t.transform.position.y < 0f) continue;
                 t.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             }
         }

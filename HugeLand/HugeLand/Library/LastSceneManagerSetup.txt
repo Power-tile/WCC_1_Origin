@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Scenes/Hugeland.unity
+  isLoaded: 1
+  isActive: 1

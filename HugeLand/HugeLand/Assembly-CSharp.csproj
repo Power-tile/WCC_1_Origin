@@ -61,7 +61,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\MenuScript.cs" />
+    <Compile Include="Assets\Resources\Fog.cs" />
+    <Compile Include="Assets\Resources\MenuScript.cs" />
+    <Compile Include="Assets\Resources\TacticsMove.cs" />
+    <Compile Include="Assets\Resources\Tile.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>E:/Moonshot Academy/2018.9 - 2019.2/WannaLaugh Computer Club (WCC)/Git Repo/WCC_1/WCC_1_Origin/HugeLand/HugeLand/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

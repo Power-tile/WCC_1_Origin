@@ -76,6 +76,7 @@ public class MenuScript : MonoBehaviour{
         GameObject map = new GameObject();
         map.name = "Map";
         GameObject FogTemplate = Resources.Load<GameObject>("Fog");
+        GameObject SelectTemplate = Resources.Load<GameObject>("Select");
 
         for (int i = 1; i <= MapLen; i++) {
             GameObject row = new GameObject();
@@ -94,6 +95,11 @@ public class MenuScript : MonoBehaviour{
                 fog.name = "Fog";
                 fog.transform.parent = tile.transform;
                 fog.transform.position = tile.transform.position + Vector3.up * 1;
+
+                GameObject select = Instantiate(SelectTemplate);
+                select.name = "Select";
+                select.transform.parent = tile.transform;
+                select.transform.position = tile.transform.position + Vector3.up * 0.51f;
             }
         }
     }

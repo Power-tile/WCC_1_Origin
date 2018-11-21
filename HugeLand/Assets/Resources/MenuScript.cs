@@ -167,22 +167,22 @@ public class MenuScript : MonoBehaviour{
                 GameObject tile = row.transform.Find("Tile" + strj).gameObject;
                 if (MapType[i, j] == 1)
                 {
-                    Material material = Resources.Load<Material>("Grey");
+                    Material material = Resources.Load<Material>("LandMaterial/Grey");
                     tile.GetComponent<Renderer>().material = material;
                 }
                 else if(MapType[i, j] == 2)
                 {
-                    Material material = Resources.Load<Material>("Green");
+                    Material material = Resources.Load<Material>("LandMaterial/Green");
                     tile.GetComponent<Renderer>().material = material;
                 }
                 else if (MapType[i, j] == 3)
                 {
-                    Material material = Resources.Load<Material>("Brown");
+                    Material material = Resources.Load<Material>("LandMaterial/Brown");
                     tile.GetComponent<Renderer>().material = material;
                 }
                 else if (MapType[i, j] == 4)
                 {
-                    Material material = Resources.Load<Material>("Yellow");
+                    Material material = Resources.Load<Material>("LandMaterial/Yellow");
                     tile.GetComponent<Renderer>().material = material;
                 }
                 Tile t = tile.GetComponent<Tile>();

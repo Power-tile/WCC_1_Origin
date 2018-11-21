@@ -105,10 +105,16 @@ public class MenuScript : MonoBehaviour{
     color:   grey   green   brown   yellow
     movement cost:   25   20   40   10
     vision cost:   20   25   10   10
-    total movement point:1000
-    total vision point:10000
+    total movement point:100
+    total vision point:300
     */
+
+    //This is for generating temporary test landscapes for the map.
     public static int[,] MapType = new int[MapLen+1, MapWid+1];
+    public static int[] movecost = new int[4] { 25, 20, 40, 10 };
+    public static int[] eyecost = new int[4] { 20, 25, 10, 10 };
+    public static int maxeye = 300;
+    public static int maxmove = 100;
     [MenuItem("Tools/Generate Landscape")]
     public static void GiveLandscape()
     {
@@ -173,9 +179,11 @@ public class MenuScript : MonoBehaviour{
                     Material material = Resources.Load<Material>("Yellow");
                     tile.GetComponent<Renderer>().material = material;
                 }
+                Tile t = tile.GetComponent<Tile>();
+                t.type = MapType[i, j];
+                t.x = i;
+                t.y = j;
             }
         }
     }
-
-    //Graph generating
 }

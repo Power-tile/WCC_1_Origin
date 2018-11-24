@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TacticsMove : MenuScript {
-    const int INF = 0x7fffffff;
+public class TacticsMove : Init {
+    const int INF = 0x7fffffff; // Infinity value
     
-    struct Point { // stores a pair of coordinates of a tile
+    public struct Point { // stores a pair of coordinates of a tile
         public int x, y;
         public Point(int x, int y) { // used for assigning tiles
             this.x = x;
@@ -13,20 +13,20 @@ public class TacticsMove : MenuScript {
         }
     }
 
-    // up, down, left, right
+    // array of moving; up - down - left - right
     public int[] dirx = new int[4] { 0, 0, -1, 1 };
     public int[] diry = new int[4] { -1, 1, 0, 0 };
 
-    public List<Tile> eyelist = new List<Tile>();
-    public List<Tile> movelist = new List<Tile>();
+    public List<Tile> eyelist = new List<Tile>(); // List of the tiles that the player can see
+    public List<Tile> movelist = new List<Tile>(); // List of the tiles that the player can move to
 
-    Tile currentTile;
+    Tile currentTile; // marking the tile that the player is standing
 
+    // Find the tiles that the players can see
     public void SpfaEye(Tile t) {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         foreach (GameObject tile in tiles) { // Recover Fog
-            GameObject fog = tile.transform.Find("Fog").gameObject;
-            fog.SetActive(true);
+            tile.GetComponent<Tile>().insight = false;
         }
 
         int[,] dis = new int[MapLen + 1, MapWid + 1];
@@ -52,7 +52,7 @@ public class TacticsMove : MenuScript {
 
             for (int i=0; i<4; i++) {
                 Point v = new Point(u.x + dirx[i], u.y + diry[i]);
-                if (dis[u.x, u.y] + eyecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
+                if (Valid(v) && dis[u.x, u.y] + eyecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
                     dis[v.x, v.y] = dis[u.x, u.y] + eyecost[MapType[v.x, v.y]];
                     if (!visited[v.x, v.y] && dis[v.x, v.y] <= maxeye) {
                         Point ppush = new Point(v.x, v.y);
@@ -69,14 +69,20 @@ public class TacticsMove : MenuScript {
                     GameObject row = GameObject.Find("Row" + i.ToString());
                     GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
                     eyelist.Add(tile.GetComponent<Tile>());
-                    GameObject fog = tile.transform.Find("Fog").gameObject;
-                    fog.SetActive(false);
+                    tile.GetComponent<Tile>().insight = true;
+                    tile.GetComponent<Tile>().eyedis = dis[i, j];
                 }
             }
         }
     }
 
     public void SpfaMove(Tile t) {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+        foreach (GameObject tile in tiles) {
+            tile.GetComponent<Tile>().selectable = false;
+            tile.GetComponent<Tile>().selected = false;
+        }
+
         int[,] dis = new int[MapLen + 1, MapWid + 1];
         bool[,] visited = new bool[MapLen + 1, MapWid + 1];
         Queue<Point> q = new Queue<Point>();
@@ -118,6 +124,7 @@ public class TacticsMove : MenuScript {
                     GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
                     movelist.Add(tile.GetComponent<Tile>());
                     tile.GetComponent<Tile>().selectable = true;
+                    tile.GetComponent<Tile>().movedis = dis[i, j];
                 }
             }
         }
@@ -132,7 +139,6 @@ public class TacticsMove : MenuScript {
         RaycastHit hit;
         Tile tile = null;
 
-
         Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1);
         tile = hit.collider.GetComponentInParent<Tile>();
 
@@ -142,5 +148,10 @@ public class TacticsMove : MenuScript {
     public void FindPath() {
         GetCurrentTile();
         SpfaEye(currentTile);
+        SpfaMove(currentTile);
+    }
+
+    public bool Valid(Point p) {
+        return p.x >= 0 && p.x <= MapLen && p.y >= 0 && p.y <= MapWid;
     }
 }

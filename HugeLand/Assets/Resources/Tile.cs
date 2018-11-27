@@ -25,15 +25,15 @@ public class Tile : MonoBehaviour {
         GameObject select = this.transform.Find("Select").gameObject; // find gameobject select
         if (current) {
             select.SetActive(true);
-            select.GetComponent<Renderer>().material.color = Color.green;
+            select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/GreenSelect");
         }
-        else if (selectable) {
+        else if (selectable) {  
             select.SetActive(true);
-            select.GetComponent<Renderer>().material.color = Color.blue;
+            select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/BlueSelect");
         }
         else if (selected) {
             select.SetActive(true);
-            select.GetComponent<Renderer>().material.color = Color.magenta;
+            select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/RedSelect");
         } else {
             select.SetActive(false);
         }

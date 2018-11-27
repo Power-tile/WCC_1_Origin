@@ -23,15 +23,15 @@ public class Tile : MonoBehaviour {
         fog.SetActive(!insight); // if the tile is in sight, deactivate fog; else activate fog
 
         GameObject select = this.transform.Find("Select").gameObject; // find gameobject select
-        if (current) {
+        if (current) { // player is standing on the tile
             select.SetActive(true);
             select.GetComponent<Renderer>().material.color = Color.green;
         }
-        else if (selectable) {
+        else if (selectable) { // player can select the tile
             select.SetActive(true);
             select.GetComponent<Renderer>().material.color = Color.blue;
         }
-        else if (selected) {
+        else if (selected) { // player selected the tile
             select.SetActive(true);
             select.GetComponent<Renderer>().material.color = Color.magenta;
         } else {

@@ -27,7 +27,11 @@ public class Tile : MonoBehaviour {
             select.SetActive(true);
             select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/GreenSelect");
         }
+<<<<<<< HEAD
         else if (selectable) { // player can select the tile
+=======
+        else if (selectable) {  
+>>>>>>> basic_movement
             select.SetActive(true);
             select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/BlueSelect");
         }

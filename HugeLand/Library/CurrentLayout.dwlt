@@ -68,10 +68,17 @@ MonoBehaviour:
     y: 0
     width: 403
     height: 809
+<<<<<<< HEAD
   m_MinSize: {x: 234, y: 471}
   m_MaxSize: {x: 10004, y: 14021}
   vertical: 1
   controlID: 111
+=======
+  m_MinSize: {x: 234, y: 492}
+  m_MaxSize: {x: 10004, y: 14042}
+  vertical: 1
+  controlID: 50
+>>>>>>> basic_movement
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -120,7 +127,11 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 442}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
+<<<<<<< HEAD
   controlID: 10
+=======
+  controlID: 74
+>>>>>>> basic_movement
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -139,8 +150,8 @@ MonoBehaviour:
     y: 0
     width: 403
     height: 455
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 204, y: 221}
+  m_MaxSize: {x: 4004, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -167,10 +178,17 @@ MonoBehaviour:
     y: 30
     width: 1603
     height: 809
+<<<<<<< HEAD
   m_MinSize: {x: 711, y: 471}
   m_MaxSize: {x: 18006, y: 14021}
   vertical: 0
   controlID: 110
+=======
+  m_MinSize: {x: 713, y: 492}
+  m_MaxSize: {x: 18008, y: 14042}
+  vertical: 0
+  controlID: 73
+>>>>>>> basic_movement
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -379,11 +397,11 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources
+    - Assets/Resources/SelectMaterial
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Resources
+  - Assets/Resources/SelectMaterial
   m_LastFoldersGridSize: 16
   m_LastProjectPath: E:\Moonshot Academy\2018.9 - 2019.2\WannaLaugh Computer Club
     (WCC)\Git Repo\WCC_1\WCC_1_Origin\HugeLand
@@ -391,9 +409,15 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
+<<<<<<< HEAD
     m_SelectedIDs: ec2b0000
     m_LastClickedID: 11244
     m_ExpandedIDs: 00000000f4290000ec2b000000ca9a3b
+=======
+    m_SelectedIDs: 5e2b0000
+    m_LastClickedID: 11102
+    m_ExpandedIDs: 00000000f4290000f42b000000ca9a3b
+>>>>>>> basic_movement
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: Resources
@@ -421,7 +445,11 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< HEAD
     m_ExpandedIDs: 00000000f4290000ec2b0000
+=======
+    m_ExpandedIDs: 00000000f4290000f42b0000
+>>>>>>> basic_movement
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -539,7 +567,11 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< HEAD
     m_ExpandedIDs: e4fbffff000000002c3d0000
+=======
+    m_ExpandedIDs: 06f8ffffe4fbffff00000000
+>>>>>>> basic_movement
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

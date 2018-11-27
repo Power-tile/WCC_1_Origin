@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 262dfcce8b3721a4ca294ec2efaf635a
+=======
+guid: 1782e9f93245fb94cbda6671e38e9fbe
+>>>>>>> basic_movement
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}

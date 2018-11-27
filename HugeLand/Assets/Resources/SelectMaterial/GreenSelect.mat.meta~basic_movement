@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: 200e366c99064fb4da87102d4f868ff6
-=======
-guid: 7fe1f136770bf0b43b90b29573b1f696
->>>>>>> basic_movement
+guid: 163af65b16d1af14d800f977e2505fc4
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 2100000

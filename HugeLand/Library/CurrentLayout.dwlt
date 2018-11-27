@@ -20,7 +20,11 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 9}
+<<<<<<< HEAD
   m_MinSize: {x: 950, y: 300}
+=======
+  m_MinSize: {x: 950, y: 521}
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -66,12 +70,28 @@ MonoBehaviour:
     serializedVersion: 2
     x: 623
     y: 0
+<<<<<<< HEAD
     width: 343
     height: 635
   m_MinSize: {x: 234, y: 492}
   m_MaxSize: {x: 10004, y: 14042}
   vertical: 1
   controlID: 121
+=======
+    width: 403
+    height: 809
+<<<<<<< HEAD
+  m_MinSize: {x: 234, y: 471}
+  m_MaxSize: {x: 10004, y: 14021}
+  vertical: 1
+  controlID: 111
+=======
+  m_MinSize: {x: 234, y: 492}
+  m_MaxSize: {x: 10004, y: 14042}
+  vertical: 1
+  controlID: 50
+>>>>>>> basic_movement
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -120,7 +140,15 @@ MonoBehaviour:
   m_MinSize: {x: 202, y: 442}
   m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
+<<<<<<< HEAD
   controlID: 63
+=======
+<<<<<<< HEAD
+  controlID: 10
+=======
+  controlID: 74
+>>>>>>> basic_movement
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,12 +193,28 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
+<<<<<<< HEAD
     width: 1366
     height: 635
   m_MinSize: {x: 713, y: 492}
   m_MaxSize: {x: 18008, y: 14042}
   vertical: 0
   controlID: 9
+=======
+    width: 1603
+    height: 809
+<<<<<<< HEAD
+  m_MinSize: {x: 711, y: 471}
+  m_MaxSize: {x: 18006, y: 14021}
+  vertical: 0
+  controlID: 110
+=======
+  m_MinSize: {x: 713, y: 492}
+  m_MaxSize: {x: 18008, y: 14042}
+  vertical: 0
+  controlID: 73
+>>>>>>> basic_movement
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -187,10 +231,17 @@ MonoBehaviour:
     serializedVersion: 2
     x: 966
     y: 0
+<<<<<<< HEAD
     width: 400
     height: 635
   m_MinSize: {x: 277, y: 71}
   m_MaxSize: {x: 4002, y: 4021}
+=======
+    width: 469
+    height: 809
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -216,8 +267,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 1366
     height: 685
+=======
+    width: 1603
+    height: 859
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
   m_MinSize: {x: 950, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &10
@@ -379,34 +435,46 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Resources
+    - Assets/Resources/SelectMaterial
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Resources
+  - Assets/Resources/SelectMaterial
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Git Repo\WCC_1\WCC_1_Origin\HugeLand
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
+<<<<<<< HEAD
     m_SelectedIDs: 40350000
     m_LastClickedID: 13632
     m_ExpandedIDs: 000000000c3300004035000000ca9a3bffffff7f
+=======
+<<<<<<< HEAD
+    m_SelectedIDs: ec2b0000
+    m_LastClickedID: 11244
+    m_ExpandedIDs: 00000000f4290000ec2b000000ca9a3b
+=======
+    m_SelectedIDs: 5e2b0000
+    m_LastClickedID: 11102
+    m_ExpandedIDs: 00000000f4290000f42b000000ca9a3b
+>>>>>>> basic_movement
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Resources
+      m_OriginalName: Resources
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 11244
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 2}
     m_SearchString: 
@@ -420,7 +488,15 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< HEAD
     m_ExpandedIDs: 000000000c33000040350000
+=======
+<<<<<<< HEAD
+    m_ExpandedIDs: 00000000f4290000ec2b0000
+=======
+    m_ExpandedIDs: 00000000f4290000f42b0000
+>>>>>>> basic_movement
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -451,18 +527,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c62300001827000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: SelectMaterial
+      m_OriginalName: SelectMaterial
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 25346
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 2}
     m_CreateAssetUtility:
@@ -538,7 +614,15 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
+<<<<<<< HEAD
     m_ExpandedIDs: a8f4ffff0000000074460000
+=======
+<<<<<<< HEAD
+    m_ExpandedIDs: e4fbffff000000002c3d0000
+=======
+    m_ExpandedIDs: 06f8ffffe4fbffff00000000
+>>>>>>> basic_movement
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: Init
@@ -683,7 +767,7 @@ MonoBehaviour:
     m_VAllowExceedBaseRangeMin: 1
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
-    m_HSlider: 0
+    m_HSlider: 1
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
     m_EnableMouseInput: 1
@@ -694,20 +778,34 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 17
+<<<<<<< HEAD
       width: 621
       height: 296
     m_Scale: {x: 1, y: 1}
     m_Translation: {x: 310.5, y: 148}
+=======
+      width: 729
+      height: 388
+    m_Scale: {x: 1.1979166, y: 1.1979166}
+    m_Translation: {x: 364.5, y: 194}
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
+<<<<<<< HEAD
       x: -310.5
       y: -148
       width: 621
       height: 296
+=======
+      x: -304.27826
+      y: -161.94783
+      width: 608.5565
+      height: 323.89566
+>>>>>>> 44d7bb6b9852c8d3a4504b7d1d8e529e11eb808d
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_TargetTexture: {fileID: 0}

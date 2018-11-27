@@ -20,6 +20,7 @@ public class Init : MonoBehaviour {
     public static int[] eyecost = new int[4] { 20, 25, 10, 10 };
     public static int maxeye = 150;
     public static int maxmove = 75;
+    //public static int timecnt = 0;//time counter, used for periodical operation
 
     //This is for generating temporary test landscapes for the map.
     public static void GiveLandscape() {
@@ -84,5 +85,11 @@ public class Init : MonoBehaviour {
 
     void Start() {
         GiveLandscape();
+        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
+    }
+
+    void Update()
+    {
+        GameObject.Find("Player1").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
     }
 }

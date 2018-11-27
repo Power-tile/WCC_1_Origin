@@ -85,7 +85,7 @@ public class Init : MonoBehaviour {
 
     void Start() {
         GiveLandscape();
-        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
+        //GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
     }
 
     void Update()

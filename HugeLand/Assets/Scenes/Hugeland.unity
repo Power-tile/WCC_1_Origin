@@ -7009,7 +7009,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 369278412}
         m_MethodName: RotateRight
         m_Mode: 1
         m_Arguments:
@@ -20271,6 +20271,7 @@ GameObject:
   - component: {fileID: 369278408}
   - component: {fileID: 369278411}
   - component: {fileID: 369278410}
+  - component: {fileID: 369278412}
   - component: {fileID: 369278409}
   m_Layer: 0
   m_Name: Camera
@@ -20342,6 +20343,17 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &369278412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 369278407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42294eb0f1004d943984052bfad8b3ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &369418570
 GameObject:
   m_ObjectHideFlags: 0
@@ -31082,7 +31094,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &534669903
 AudioListener:
   m_ObjectHideFlags: 0
@@ -106502,7 +106514,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 369278412}
         m_MethodName: RotateLeft
         m_Mode: 1
         m_Arguments:

@@ -66,19 +66,20 @@
     <Compile Include="Assets\Resources\Init.cs" />
     <Compile Include="Assets\Resources\MenuScript.cs" />
     <Compile Include="Assets\Resources\Player1Move.cs" />
+    <Compile Include="Assets\Resources\SwitchTurn.cs" />
     <Compile Include="Assets\Resources\TacticsMove.cs" />
     <Compile Include="Assets\Resources\Tile.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Git Repo/WCC_1/WCC_1_Origin/HugeLand/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/hsx/Desktop/HugeLand/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Git Repo/WCC_1/WCC_1_Origin/HugeLand/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/hsx/Desktop/HugeLand/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Git Repo/WCC_1/WCC_1_Origin/HugeLand/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/hsx/Desktop/HugeLand/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Git Repo/WCC_1/WCC_1_Origin/HugeLand/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/hsx/Desktop/HugeLand/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

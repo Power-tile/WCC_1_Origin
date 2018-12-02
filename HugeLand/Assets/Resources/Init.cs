@@ -85,11 +85,15 @@ public class Init : MonoBehaviour {
 
     void Start() {
         GiveLandscape();
-        //GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
+        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
+        GameObject.Find("Player1").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
+        GameObject.Find("Player2").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
+        GameObject.Find("Player3").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
+        GameObject.Find("Player4").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
     }
 
     void Update()
     {
-        GameObject.Find("Player1").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
+        
     }
 }

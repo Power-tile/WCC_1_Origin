@@ -15,7 +15,7 @@ public class Init : MonoBehaviour {
     */
 
     public static int MapLen = 20, MapWid = 20;
-    public static int[,] MapType = new int[MapLen + 1, MapWid + 1];
+    public static int[,] MapType = new int[MapLen + 10, MapWid + 10];
     public static int[] movecost = new int[4] { 25, 20, 40, 10 };
     public static int[] eyecost = new int[4] { 20, 25, 10, 10 };
     public static int maxeye = 150;
@@ -45,7 +45,7 @@ public class Init : MonoBehaviour {
                 float mind = 100000000000.00f;
                 for (int k = 1; k <= 4; k++) {
                     if (mind > d[k]) {
-                        tmp = k;
+                        tmp = k - 1;
                         mind = d[k];
                     }
                 }
@@ -59,19 +59,19 @@ public class Init : MonoBehaviour {
                 GameObject map = GameObject.Find("Map");
                 GameObject row = map.transform.Find("Row" + stri).gameObject;
                 GameObject tile = row.transform.Find("Tile" + strj).gameObject;
-                if (MapType[i, j] == 1) {
+                if (MapType[i, j] == 0) {
                     Material material = Resources.Load<Material>("LandMaterial/Grey");
                     tile.GetComponent<Renderer>().material = material;
                 }
-                else if (MapType[i, j] == 2) {
+                else if (MapType[i, j] == 1) {
                     Material material = Resources.Load<Material>("LandMaterial/Green");
                     tile.GetComponent<Renderer>().material = material;
                 }
-                else if (MapType[i, j] == 3) {
+                else if (MapType[i, j] == 2) {
                     Material material = Resources.Load<Material>("LandMaterial/Brown");
                     tile.GetComponent<Renderer>().material = material;
                 }
-                else if (MapType[i, j] == 4) {
+                else if (MapType[i, j] == 3) {
                     Material material = Resources.Load<Material>("LandMaterial/Yellow");
                     tile.GetComponent<Renderer>().material = material;
                 }
@@ -85,11 +85,6 @@ public class Init : MonoBehaviour {
 
     void Start() {
         GiveLandscape();
-        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
-        GameObject.Find("Player1").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
-        GameObject.Find("Player2").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
-        GameObject.Find("Player3").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
-        GameObject.Find("Player4").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
     }
 
     void Update()

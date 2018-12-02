@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwitchTurn : MonoBehaviour {
+public class SwitchTurn : Init {
+    public int currentPlayer = 1;
+
 	public void switchturn()
     {
         int n = 0;
@@ -18,5 +20,17 @@ public class SwitchTurn : MonoBehaviour {
         //{
             GameObject.Find("Player" + n.ToString()).transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
         //}
+    }
+
+    void Start() {
+        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = false;
+        GameObject.Find("Player1").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
+        GameObject.Find("Player2").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
+        GameObject.Find("Player3").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
+        GameObject.Find("Player4").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
+    }
+
+    void Update() {
+        // Switch to the next player
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TacticsMove : Init {
+public class TacticsMove : SwitchTurn {
     const int INF = 0x7fffffff; // Infinity value
     
     public struct Point { // stores a pair of coordinates of a tile
@@ -30,7 +30,7 @@ public class TacticsMove : Init {
         }
 
         int[,] dis = new int[MapLen + 1, MapWid + 1];
-        bool[,] visited = new bool[MapLen + 1, MapWid + 1];
+        bool[,] visited = new bool[MapLen + 10, MapWid + 10];
         Queue<Point> q = new Queue<Point>();
 
         for (int i = 1; i <= MapLen; i++) {
@@ -52,12 +52,14 @@ public class TacticsMove : Init {
 
             for (int i=0; i<4; i++) {
                 Point v = new Point(u.x + dirx[i], u.y + diry[i]);
-                if (Valid(v) && dis[u.x, u.y] + eyecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
-                    dis[v.x, v.y] = dis[u.x, u.y] + eyecost[MapType[v.x, v.y]];
-                    if (!visited[v.x, v.y] && dis[v.x, v.y] <= maxeye) {
-                        Point ppush = new Point(v.x, v.y);
-                        q.Enqueue(ppush);
-                        visited[v.x, v.y] = true;
+                if (Valid(v)) {
+                    if (dis[u.x, u.y] + eyecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
+                        dis[v.x, v.y] = dis[u.x, u.y] + eyecost[MapType[v.x, v.y]];
+                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= maxeye) {
+                            Point ppush = new Point(v.x, v.y);
+                            q.Enqueue(ppush);
+                            visited[v.x, v.y] = true;
+                        }
                     }
                 }
             }
@@ -83,7 +85,7 @@ public class TacticsMove : Init {
             tile.GetComponent<Tile>().selected = false;
         }
 
-        int[,] dis = new int[MapLen + 1, MapWid + 1];
+        int[,] dis = new int[MapLen + 10, MapWid + 10];
         bool[,] visited = new bool[MapLen + 1, MapWid + 1];
         Queue<Point> q = new Queue<Point>();
 
@@ -106,12 +108,14 @@ public class TacticsMove : Init {
 
             for (int i = 0; i < 4; i++) {
                 Point v = new Point(u.x + dirx[i], u.y + diry[i]);
-                if (dis[u.x, u.y] + movecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
-                    dis[v.x, v.y] = dis[u.x, u.y] + movecost[MapType[v.x, v.y]];
-                    if (!visited[v.x, v.y] && dis[v.x, v.y] <= maxmove) {
-                        Point ppush = new Point(v.x, v.y);
-                        q.Enqueue(ppush);
-                        visited[v.x, v.y] = true;
+                if (Valid(v)) {
+                    if (dis[u.x, u.y] + movecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
+                        dis[v.x, v.y] = dis[u.x, u.y] + movecost[MapType[v.x, v.y]];
+                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= maxmove) {
+                            Point ppush = new Point(v.x, v.y);
+                            q.Enqueue(ppush);
+                            visited[v.x, v.y] = true;
+                        }
                     }
                 }
             }
@@ -152,6 +156,6 @@ public class TacticsMove : Init {
     }
 
     public bool Valid(Point p) {
-        return p.x >= 0 && p.x <= MapLen && p.y >= 0 && p.y <= MapWid;
+        return p.x > 0 && p.x <= MapLen && p.y > 0 && p.y <= MapWid;
     }
 }

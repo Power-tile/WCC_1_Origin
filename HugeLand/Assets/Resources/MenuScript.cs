@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public class MenuScript : Init{
+public class MenuScript : Init {
     //This is only for assigning the names and positions of the first tiles; DO NOT REUSE.
     /*
     [MenuItem("Tools/Assign First Row Tile")]

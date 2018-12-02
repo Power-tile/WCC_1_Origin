@@ -20372,6 +20372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7dc23d1906614488c92243cbbe7360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerNumber: 1
 --- !u!1 &369418570
 GameObject:
   m_ObjectHideFlags: 0
@@ -29341,6 +29342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7dc23d1906614488c92243cbbe7360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerNumber: 1
 --- !u!1 &508523896
 GameObject:
   m_ObjectHideFlags: 0
@@ -37279,12 +37281,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de0e17ba74a15a4ea2f7864738a773c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerNumber: 1
   dirx: 0000000000000000ffffffff01000000
   diry: ffffffff010000000000000000000000
   eyelist: []
   movelist: []
-  currentTile: {fileID: 0}
   moving: 0
+  selfNumber: 0
+  maxEyeOfPlayer: 150
+  maxMoveOfPlayer: 75
 --- !u!1 &663528346
 GameObject:
   m_ObjectHideFlags: 0
@@ -58155,12 +58160,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de0e17ba74a15a4ea2f7864738a773c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerNumber: 1
   dirx: 0000000000000000ffffffff01000000
   diry: ffffffff010000000000000000000000
   eyelist: []
   movelist: []
-  currentTile: {fileID: 0}
   moving: 0
+  selfNumber: 0
+  maxEyeOfPlayer: 150
+  maxMoveOfPlayer: 75
 --- !u!136 &1057875520
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -58189,7 +58197,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 7b0ce7b90bddaea4c8791fa2ef887a1c, type: 2}
+  - {fileID: 2100000, guid: 815002cbf9231fc42bc7fb9076e38647, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86883,12 +86891,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de0e17ba74a15a4ea2f7864738a773c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerNumber: 1
   dirx: 0000000000000000ffffffff01000000
   diry: ffffffff010000000000000000000000
   eyelist: []
   movelist: []
-  currentTile: {fileID: 0}
   moving: 0
+  selfNumber: 0
+  maxEyeOfPlayer: 150
+  maxMoveOfPlayer: 75
 --- !u!136 &1556925688
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -86917,7 +86928,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 7b0ce7b90bddaea4c8791fa2ef887a1c, type: 2}
+  - {fileID: 2100000, guid: cd3d87db95a162246b009644b44a4aa8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -88653,12 +88664,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4de0e17ba74a15a4ea2f7864738a773c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerNumber: 1
   dirx: 0000000000000000ffffffff01000000
   diry: ffffffff010000000000000000000000
   eyelist: []
   movelist: []
-  currentTile: {fileID: 0}
   moving: 0
+  selfNumber: 0
+  maxEyeOfPlayer: 150
+  maxMoveOfPlayer: 75
 --- !u!136 &1588681895
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -88687,7 +88701,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 7b0ce7b90bddaea4c8791fa2ef887a1c, type: 2}
+  - {fileID: 2100000, guid: d64788feddd3bea48b096de495ab4bbb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -94435,6 +94449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7dc23d1906614488c92243cbbe7360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerNumber: 1
 --- !u!1 &1688249576
 GameObject:
   m_ObjectHideFlags: 0
@@ -101951,6 +101966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7dc23d1906614488c92243cbbe7360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerNumber: 1
 --- !u!1 &1800678019
 GameObject:
   m_ObjectHideFlags: 0

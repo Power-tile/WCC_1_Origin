@@ -83,6 +83,7 @@ public class TacticsMove : SwitchTurn {
 
         for (int i=1; i<=MapLen; i++) {
             for (int j=1; j<=MapWid; j++) {
+                GameObject.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject.GetComponent<Tile>().eyedis = dis[i, j];
                 if (dis[i, j] <= tmpMaxEye) {
                     GameObject row = GameObject.Find("Row" + i.ToString());
                     GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
@@ -142,6 +143,7 @@ public class TacticsMove : SwitchTurn {
 
         for (int i = 1; i <= MapLen; i++) {
             for (int j = 1; j <= MapWid; j++) {
+                GameObject.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject.GetComponent<Tile>().movedis = dis[i, j];
                 if (dis[i, j] <= tmpMaxMove) {
                     GameObject row = GameObject.Find("Row" + i.ToString());
                     GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
@@ -169,7 +171,11 @@ public class TacticsMove : SwitchTurn {
         return tile;
     }
 
-    public void FindPath() {
+    // Find the tiles that the players can see and the tiles that the players can move to.
+    public void FindPath(int eye, int move) {
+        tmpMaxEye = eye;
+        tmpMaxMove = move;
+
         GetCurrentTile();
         SpfaEye(currentTile);
         SpfaMove(currentTile);
@@ -184,8 +190,8 @@ public class TacticsMove : SwitchTurn {
         p.moving = true;
         t.selected = true;
 
-        targetx = int.Parse(t.gameObject.name.Split('e')[1]);
-        targety = int.Parse(t.gameObject.transform.parent.gameObject.name.Split('w')[1]);
+        targetx = int.Parse(t.gameObject.transform.parent.gameObject.name.Split('w')[1]);
+        targety = int.Parse(t.gameObject.name.Split('e')[1]);
     }
 
     public void Move(PlayerMove p) {

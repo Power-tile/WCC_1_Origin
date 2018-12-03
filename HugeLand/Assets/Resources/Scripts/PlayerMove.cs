@@ -20,7 +20,8 @@ public class PlayerMove : TacticsMove {
             Debug.DrawRay(transform.position, transform.forward);
 
             if (!moving) {
-                FindPath();
+                FindPath(maxEyeOfPlayer, maxMoveOfPlayer);
+                CheckMouse();
             } else {
                 Move(this);
             }
@@ -33,11 +34,14 @@ public class PlayerMove : TacticsMove {
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit)) {
-                if (hit.collider.tag == "Tile") {
-                    Tile t = hit.collider.GetComponent<Tile>();
-                    if (t.selectable) {
-                        MoveToTile(this, t);
-                    }
+                GameObject now = hit.collider.gameObject;
+                while (now.tag != "Tile") {
+                    now = now.transform.parent.gameObject;
+                }
+
+                Tile t = now.GetComponent<Tile>();
+                if (t.selectable) {
+                    MoveToTile(this, t);
                 }
             }
         }

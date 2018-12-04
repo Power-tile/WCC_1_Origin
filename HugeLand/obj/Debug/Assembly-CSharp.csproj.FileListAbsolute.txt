@@ -857,7 +857,6 @@ C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\Unity.TextMeshPro.Editor.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEditor.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEditor.StandardEvents.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.AccessibilityModule.dll
-C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.Advertisements.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.AIModule.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.Analytics.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.AnimationModule.dll
@@ -892,7 +891,6 @@ C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.PerformanceReportin
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.Physics2DModule.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.PhysicsModule.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.ProfilerModule.dll
-C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.Purchasing.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.ScreenCaptureModule.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.SharedInternalsModule.dll
 C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.SpatialTracking.dll

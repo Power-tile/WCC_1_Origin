@@ -31,14 +31,15 @@ public class Tile : MonoBehaviour {
             select.SetActive(true);
             select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/GreenSelect");
         }
+        else if (selected) { // player selected the tile
+            select.SetActive(true);
+            select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/RedSelect");
+        }
         else if (selectable) { // player can select the tile
             select.SetActive(true);
             select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/BlueSelect");
         }
-        else if (selected) { // player selected the tile
-            select.SetActive(true);
-            select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/RedSelect");
-        } else {
+        else {
             select.SetActive(false);
         }
 

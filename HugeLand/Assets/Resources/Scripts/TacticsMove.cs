@@ -22,14 +22,15 @@ public class TacticsMove : SwitchTurn {
 
     public Point[,] prev = new Point[MapLen + 10, MapWid + 10];
 
-    Tile currentTile; // marking the tile that the player is standing
+    private Tile currentTile; // marking the tile that the player is standing
+    private Point currentPoint; // storing the tile in a point form
 
     // tmpMaxEye, tmpMaxMove stores the maxeye and maxmove of the current player. (maxeye and maxmove may differ among players)
     private int tmpMaxEye;
     private int tmpMaxMove;
 
-    private Tile targetTile; // Marks the targetted tile
-    private int targetx, targety; // Marks the x and y of the targetted tile
+    private Tile targetTile; // marking the targetted tile
+    private Point targetPoint; // stroing the targetted tile in a point form
 
     void Update() {
         // Get and stores the maxeye and maxmove of current player.
@@ -40,6 +41,7 @@ public class TacticsMove : SwitchTurn {
 
     // Find the tiles that the players can see
     public void SpfaEye(Tile t) {
+        eyelist.Clear();
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         foreach (GameObject tile in tiles) { // Recover Fog
             tile.GetComponent<Tile>().insight = false;
@@ -97,6 +99,7 @@ public class TacticsMove : SwitchTurn {
 
     // Find the tiles that the players can move to.
     public void SpfaMove(Tile t) {
+        movelist.Clear();
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         foreach (GameObject tile in tiles) {
             tile.GetComponent<Tile>().selectable = false;
@@ -177,6 +180,8 @@ public class TacticsMove : SwitchTurn {
         tmpMaxMove = move;
 
         GetCurrentTile();
+        currentPoint = new Point(currentTile.x, currentTile.y);
+
         SpfaEye(currentTile);
         SpfaMove(currentTile);
     }
@@ -190,11 +195,58 @@ public class TacticsMove : SwitchTurn {
         p.moving = true;
         t.selected = true;
 
-        targetx = int.Parse(t.gameObject.transform.parent.gameObject.name.Split('w')[1]);
-        targety = int.Parse(t.gameObject.name.Split('e')[1]);
+        targetPoint = new Point(t.x, t.y);
     }
 
     public void Move(PlayerMove p) {
+        Stack<Point> routine = new Stack<Point>();
 
+        int i = targetPoint.x, j = targetPoint.y;
+        routine.Push(new Point(i, j));
+        while (i != currentPoint.x && j != currentPoint.y) {
+            int tmpi = i, tmpj = j;
+            i = prev[tmpi, tmpj].x;
+            j = prev[tmpi, tmpj].y;
+            routine.Push(new Point(i, j));
+        }
+
+        i = currentPoint.x;
+        j = currentPoint.y;
+        while (routine.Count > 0) {
+            int tmpi = routine.Peek().x;
+            int tmpj = routine.Peek().y;
+            if (i != tmpi) {
+                MoveX(i, tmpi, p);
+            } else {
+                MoveY(j, tmpj, p);
+            }
+            i = tmpi;
+            j = tmpj;
+            routine.Pop();
+        }
+
+        p.moving = false;
+    }
+
+    private void MoveX(int m, int n, PlayerMove p) {
+        GameObject player = p.gameObject;
+
+        float d = (m > n) ? 0.02f : -0.02f;
+        float tmp = m;
+        while (tmp != n) {
+            tmp += d;
+            player.transform.position += Vector3.forward * d;
+        }
+    }
+
+    private void MoveY(int m, int n, PlayerMove p) {
+        GameObject player = p.gameObject;
+
+        float d = (m > n) ? 0.02f : -0.02f;
+        float tmp = m;
+        while (tmp != n) {
+            tmp += d;
+            player.transform.position += Vector3.left * d;
+        }
     }
 }

@@ -11,7 +11,7 @@ public class PlayerMove : TacticsMove {
 	// Use this for initialization
 	void Start () {
         moving = false;
-        selfNumber = (int)(this.name.Split('r')[1][0] - '0');
+        selfNumber = int.Parse(this.name.Split('r')[1]);
 	}
 	
 	// Update is called once per frame
@@ -30,7 +30,8 @@ public class PlayerMove : TacticsMove {
 
     void CheckMouse() {
         if (Input.GetMouseButtonUp(0)) {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Camera cam = this.transform.Find("Camera").gameObject.GetComponent<Camera>();
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit)) {

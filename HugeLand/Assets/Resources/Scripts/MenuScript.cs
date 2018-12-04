@@ -89,6 +89,8 @@ public class MenuScript : Init {
                 tile.tag = "Tile";
                 tile.transform.position = row.transform.position + Vector3.forward * (j - 1);
                 tile.AddComponent<Tile>();
+                tile.GetComponent<Tile>().x = i;
+                tile.GetComponent<Tile>().y = j;
 
                 GameObject fog = Instantiate(FogTemplate);
                 fog.name = "Fog";

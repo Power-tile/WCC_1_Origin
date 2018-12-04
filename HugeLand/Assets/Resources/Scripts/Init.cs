@@ -24,7 +24,7 @@ public class Init : MonoBehaviour {
 
     // This is for generating temporary test landscapes for the map.
     public static void GiveLandscape() {
-        //decide the center of each kinf of landscape
+        //decide the center of each kind of landscape
         //order:mountain,forest,moor,plain
         int x1 = UnityEngine.Random.Range(1, MapLen / 2);
         int x2 = UnityEngine.Random.Range(1, MapLen / 2);

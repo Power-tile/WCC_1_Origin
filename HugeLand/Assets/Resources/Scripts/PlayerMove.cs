@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMove : TacticsMove {
-    public bool moving = false;
-    public int selfNumber;
+    public bool moving = false; // marking if the player is moving or not
+    public float moveSpeed; // storing the movingspeed of the player
+
+    public int selfNumber; // storing the number of the player
+
     public int maxEyeOfPlayer = maxeye;
     public int maxMoveOfPlayer = maxmove;
 
@@ -12,6 +15,7 @@ public class PlayerMove : TacticsMove {
 	void Start () {
         moving = false;
         selfNumber = int.Parse(this.name.Split('r')[1]);
+        moveSpeed = 2.0f;
 	}
 	
 	// Update is called once per frame

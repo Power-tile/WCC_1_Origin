@@ -1009,3 +1009,8 @@ C:\Users\Species\Desktop\HugeLand\obj\Debug\Assembly-CSharp.csproj.CoreCompileIn
 C:\Users\Species\Desktop\HugeLand\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 C:\Users\Species\Desktop\HugeLand\obj\Debug\Assembly-CSharp.dll
 C:\Users\Species\Desktop\HugeLand\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.PerformanceTesting.dll
+C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\Unity.UNetWeaver.dll
+C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\Unity.Cecil.Pdb.dll
+C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\Unity.Cecil.Mdb.dll
+C:\Users\Species\Desktop\HugeLand\Temp\bin\Debug\UnityEngine.PerformanceTesting.xml

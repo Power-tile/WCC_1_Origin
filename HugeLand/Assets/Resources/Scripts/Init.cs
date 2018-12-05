@@ -8,18 +8,18 @@ public class Init : MonoBehaviour {
     type:   1   2   3   4
     landscript:   mountain   forest   moor   plain
     color:   grey   green   brown   yellow
-    movement cost:   25   20   40   10
+    movement cost:   25   20   40   15
     vision cost:   20   25   10   10
-    total movement point:150
-    total vision point:75
+    total movement point: 60
+    total vision point: 80
     */
 
     public static int MapLen = 20, MapWid = 20; // the size of the whole map: (MapLen, MapWid).
     public static int[,] MapType = new int[MapLen + 10, MapWid + 10]; // type of each block
-    public static int[] movecost = new int[4] { 25, 20, 40, 10 }; // moving cost of different types of terrain
+    public static int[] movecost = new int[4] { 25, 20, 40, 15 }; // moving cost of different types of terrain
     public static int[] eyecost = new int[4] { 20, 25, 10, 10 }; // moving cost of different types of terrain
-    public static int maxeye = 150; // max eye cost for player
-    public static int maxmove = 75; // max move cost for player
+    public static int maxeye = 80; // max eye cost for player
+    public static int maxmove = 60; // max move cost for player
     //public static int timecnt = 0;//time counter, used for periodical operation
 
     // This is for generating temporary test landscapes for the map.

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMove : TacticsMove {
     public bool moving = false; // marking if the player is moving or not
     public float moveSpeed; // storing the movingspeed of the player
+    public float jumpVelocity; // storing the jumpVelocity of the player
 
     public int selfNumber; // storing the number of the player
 
@@ -16,6 +17,7 @@ public class PlayerMove : TacticsMove {
         moving = false;
         selfNumber = int.Parse(this.name.Split('r')[1]);
         moveSpeed = 2.0f;
+        jumpVelocity = 4.5f;
 	}
 	
 	// Update is called once per frame

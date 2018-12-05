@@ -69,7 +69,7 @@ public class MenuScript : Init {
     }
     */
 
-    //This is for creating an initiative map, sized MapLen, MapWid; DO NOT USE WHEN MAP EXISTS.
+    /// <summary> This is for creating an initiative map, sized MapLen, MapWid; DO NOT USE WHEN MAP EXISTS. </summary>
     [MenuItem("Tools/Generate Map")]
     public static void MapGenerating() {
         GameObject map = new GameObject();
@@ -88,6 +88,11 @@ public class MenuScript : Init {
                 tile.transform.parent = row.transform;
                 tile.tag = "Tile";
                 tile.transform.position = row.transform.position + Vector3.forward * (j - 1);
+                /*
+                if (!(i == 1 && j == 1 || i == 1 && j == MapWid || i == MapLen && j == 1 || i == MapLen && j == MapWid)) {
+                    tile.transform.position += Vector3.up * UnityEngine.Random.Range(-2.0f, 2.0f);
+                }
+                */
                 tile.AddComponent<Tile>();
                 tile.GetComponent<Tile>().x = i;
                 tile.GetComponent<Tile>().y = j;

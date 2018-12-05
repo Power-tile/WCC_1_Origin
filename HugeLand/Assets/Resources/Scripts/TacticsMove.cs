@@ -47,6 +47,11 @@ public class TacticsMove : SwitchTurn {
     private Vector3 velocity = new Vector3(); // storing the velocity of the current player
     private Vector3 heading = new Vector3(); // storing the heading (head direction) of the current player
 
+    private bool fallingDown = false;
+    private bool jumpingUp = false;
+    private bool movingEdge = false;
+    private Vector3 jumpTarget;
+
     void Update() {
         // Get and stores the maxeye and maxmove of current player.
         GameObject currentPlayer = GameObject.Find("Player" + currentPlayerNumber.ToString());
@@ -54,7 +59,9 @@ public class TacticsMove : SwitchTurn {
         tmpMaxMove = currentPlayer.GetComponent<PlayerMove>().maxMoveOfPlayer;
     }
 
-    // Find the tiles that the players can see
+    /// <summary>
+    /// Find the tiles that the players can see
+    /// </summary>
     public void SpfaEye(Tile t) {
         int[,] dis = new int[MapLen + 1, MapWid + 1];
         bool[,] visited = new bool[MapLen + 10, MapWid + 10];
@@ -79,7 +86,7 @@ public class TacticsMove : SwitchTurn {
 
             for (int i=0; i<4; i++) {
                 Point v = new Point(u.x + dirx[i], u.y + diry[i]);
-                if (Valid(v)) {
+                if (Valid(u, v)) {
                     if (dis[u.x, u.y] + eyecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
                         dis[v.x, v.y] = dis[u.x, u.y] + eyecost[MapType[v.x, v.y]];
                         if (!visited[v.x, v.y] && dis[v.x, v.y] <= tmpMaxEye) {
@@ -106,7 +113,9 @@ public class TacticsMove : SwitchTurn {
         }
     }
 
-    // Find the tiles that the players can move to.
+    /// <summary>
+    /// Find the tiles that the players can move to.
+    /// </summary>
     public void SpfaMove(Tile t) {
         int[,] dis = new int[MapLen + 10, MapWid + 10];
         bool[,] visited = new bool[MapLen + 1, MapWid + 1];
@@ -132,7 +141,7 @@ public class TacticsMove : SwitchTurn {
 
             for (int i = 0; i < 4; i++) {
                 Point v = new Point(u.x + dirx[i], u.y + diry[i]);
-                if (Valid(v)) {
+                if (Valid(u, v)) {
                     if (dis[u.x, u.y] + movecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
                         dis[v.x, v.y] = dis[u.x, u.y] + movecost[MapType[v.x, v.y]];
                         prev[v.x, v.y] = new Point(u.x, u.y); // Record path
@@ -160,7 +169,9 @@ public class TacticsMove : SwitchTurn {
         }
     }
 
-    // Get the current tile under the player.
+    /// <summary>
+    /// Get the current tile under the player.
+    /// </summary>
     public void GetCurrentTile() {
         currentTile = GetTargetTile(gameObject);
         currentTile.current = true;
@@ -176,7 +187,9 @@ public class TacticsMove : SwitchTurn {
         return tile;
     }
 
-    // Find the tiles that the players can see and the tiles that the players can move to.
+    /// <summary>
+    /// Find the tiles that the players can see and the tiles that the players can move to.
+    /// </summary>
     public void FindPath(int eye, int move) {
         tmpMaxEye = eye;
         tmpMaxMove = move;
@@ -188,12 +201,14 @@ public class TacticsMove : SwitchTurn {
         SpfaMove(currentTile);
     }
 
-    // Check if point p exists in map.
-    public bool Valid(Point p) {
-        return p.x > 0 && p.x <= MapLen && p.y > 0 && p.y <= MapWid;
+    /// <summary>
+    /// Check if point p exists in map.
+    /// </summary>
+    public bool Valid(Point p, Point q) {
+        return q.x > 0 && q.x <= MapLen && q.y > 0 && q.y <= MapWid && Mathf.Abs(p.y - q.y) <= 2;
     }
 
-    // Some initiating sequences when a player selects the targetted tile
+    /// Some initiating sequences when a player selects the targetted tile
     public void MoveToTile(PlayerMove p, Tile t) {
         p.moving = true;
         t.selected = true;
@@ -219,9 +234,16 @@ public class TacticsMove : SwitchTurn {
             target.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y; // Calculate the unit position on top of target tiles
 
             if (Vector3.Distance(p.gameObject.transform.position, target) >= 0.05f) {
-                CalculateHeading(target, p);
-                SetHorizontalVelocity(p);
+                bool jump = p.gameObject.transform.position.y != target.y;
 
+                if (jump) {
+                    Jump(target, p);
+                } else {
+                    CalculateHeading(target, p);
+                    SetHorizontalVelocity(p);
+                }
+
+                // Locomotion
                 p.gameObject.transform.forward = heading;
                 p.gameObject.transform.position += velocity * Time.deltaTime;
             } else { // Reached the tile center
@@ -252,15 +274,91 @@ public class TacticsMove : SwitchTurn {
         movelist.Clear();
     }
 
-    public void CalculateHeading(Vector3 target, PlayerMove p) {
+    private void CalculateHeading(Vector3 target, PlayerMove p) {
         heading = target - p.gameObject.transform.position;
         heading.Normalize();
     }
 
-    public void SetHorizontalVelocity(PlayerMove p) {
+    private void SetHorizontalVelocity(PlayerMove p) {
         velocity = heading * p.moveSpeed;
     }
 
+    private void Jump(Vector3 target, PlayerMove p) {
+        if (fallingDown) {
+            FallDownward(target, p);
+        } else if (jumpingUp) {
+            JumpUpward(target, p);
+        } else if (movingEdge) {
+            MoveToEdge(p);
+        } else {
+            PrepareJump(target, p);
+        }
+    }
+
+    private void PrepareJump(Vector3 target, PlayerMove p) {
+        float targetY = target.y;
+
+        target.y = p.gameObject.transform.position.y;
+
+        CalculateHeading(target, p);
+
+        if (p.gameObject.transform.position.y > targetY) {
+            fallingDown = false;
+            jumpingUp = false;
+            movingEdge = true;
+
+            jumpTarget = p.gameObject.transform.position + (target - p.gameObject.transform.position) / 2.0f;
+        } else {
+            fallingDown = false;
+            jumpingUp = true;
+            movingEdge = false;
+
+            velocity = heading * p.moveSpeed / 3.0f;
+
+            float difference = targetY - p.gameObject.transform.position.y;
+
+            velocity.y = p.jumpVelocity * (0.5f + difference / 2.0f);
+        }
+    }
+
+    private void FallDownward(Vector3 target, PlayerMove p) {
+        velocity += Physics.gravity * Time.deltaTime;
+
+        if (p.gameObject.transform.position.y <= target.y) {
+            fallingDown = false;
+
+            Vector3 pos = p.gameObject.transform.position;
+            pos.y = target.y;
+            p.gameObject.transform.position = pos;
+
+            velocity = new Vector3();
+        }
+    }
+
+    private void JumpUpward(Vector3 target, PlayerMove p) {
+        velocity += Physics.gravity * Time.deltaTime;
+
+        if (p.gameObject.transform.position.y > target.y) {
+            jumpingUp = false;
+            fallingDown = true;
+        }
+    }
+    
+    private void MoveToEdge(PlayerMove p) {
+        if (Vector3.Distance(p.gameObject.transform.position, jumpTarget) >= 0.05f) {
+            SetHorizontalVelocity(p);
+        } else {
+            movingEdge = false;
+            fallingDown = true;
+
+            velocity /= 5.0f;
+            velocity.y = 1.5f;
+        }
+    }
+
+    /// <summary>
+    /// Transforms a Point-formed tile to a Tile-formed tile.
+    /// </summary>
     public Tile PointToTile(Point p) {
         return GameObject.Find("Row" + p.x.ToString()).transform.Find("Tile" + p.y.ToString()).gameObject.GetComponent<Tile>();
     }

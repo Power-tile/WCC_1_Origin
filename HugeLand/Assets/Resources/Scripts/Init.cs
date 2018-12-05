@@ -22,7 +22,7 @@ public class Init : MonoBehaviour {
     public static int maxmove = 60; // max move cost for player
     //public static int timecnt = 0;//time counter, used for periodical operation
 
-    // This is for generating temporary test landscapes for the map.
+    /// This is for generating temporary test landscapes for the map.
     public static void GiveLandscape() {
         //decide the center of each kind of landscape
         //order:mountain,forest,moor,plain

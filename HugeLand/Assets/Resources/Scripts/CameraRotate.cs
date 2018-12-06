@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CameraRotate : MonoBehaviour {
 
@@ -48,39 +49,29 @@ public class CameraRotate : MonoBehaviour {
 
     void Update()
     {
-        /*
-        Debug.Log(GameObject.Find("Player1").transform.forward);
-        if(GameObject.Find("Player1").transform.forward.y == 0)
-            Dir[1] = GameObject.Find("Player1").transform.forward;
-        if (GameObject.Find("Player2").transform.forward.y == 0)
-            Dir[2] = GameObject.Find("Player2").transform.forward;
-        if (GameObject.Find("Player3").transform.forward.y == 0)
-            Dir[3] = GameObject.Find("Player3").transform.forward;
-        if (GameObject.Find("Player4").transform.forward.y == 0)
-            Dir[4] = GameObject.Find("Player4").transform.forward;
-        */
+        Dir[1] = GameObject.Find("Player1").transform.forward;
+        Dir[2] = GameObject.Find("Player2").transform.forward;
+        Dir[3] = GameObject.Find("Player3").transform.forward;
+        Dir[4] = GameObject.Find("Player4").transform.forward;
         for (int i=1;i<=4;i++)
         {
             GameObject player = GameObject.Find("Player" + i.ToString());
-            GameObject camera = GameObject.Find("Player"+i.ToString()).transform.Find("Camera").gameObject;
-            if (PrevDir[i] != Dir[i])
+            GameObject camera = GameObject.Find("Player" + i.ToString()).transform.Find("Camera").gameObject;
+            float Dirx = (float)System.Math.Round(Dir[i].x);
+            float Dirz = (float)System.Math.Round(Dir[i].z);
+            float PrevDirx = (float)System.Math.Round(PrevDir[i].x);
+            float PrevDirz = (float)System.Math.Round(PrevDir[i].z);
+            if ((-PrevDirz == Dirx) && (PrevDirx == Dirz))
             {
-                Dir[i].x = (int)Dir[i].x;
-                Dir[i].z = (int)Dir[i].z;
-                PrevDir[i].x = (int)PrevDir[i].x;
-                PrevDir[i].z = (int)PrevDir[i].z;
-                if ((-PrevDir[i].z == Dir[i].x) && (PrevDir[i].x == Dir[i].z))
-                {
-                    camera.transform.RotateAround(player.transform.position, Vector3.up, 45);
-                }
-                else if ((-PrevDir[i].x == Dir[i].x) && (-PrevDir[i].z == Dir[i].z))
-                {
-                    camera.transform.RotateAround(player.transform.position, Vector3.up, 90);
-                }
-                else if ((PrevDir[i].z == Dir[i].x) && (-PrevDir[i].x == Dir[i].z))
-                {
-                    camera.transform.RotateAround(player.transform.position, Vector3.up, -  45);
-                }
+                camera.transform.RotateAround(player.transform.position, Vector3.up, 45);
+            }
+            else if ((-PrevDirx == Dirx) && (-PrevDirz == Dirz))
+            {
+                camera.transform.RotateAround(player.transform.position, Vector3.up, 90);
+            }
+            else if ((PrevDirz == Dirx) && (-PrevDirx == Dirz))
+            {
+                camera.transform.RotateAround(player.transform.position, Vector3.up, -  45);
             }
         }
         PrevDir[1] = Dir[1];

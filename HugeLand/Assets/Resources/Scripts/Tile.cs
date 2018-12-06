@@ -15,6 +15,8 @@ public class Tile : MonoBehaviour {
     public bool selectable; // if the tile is selectable
     public bool selected; // if the tile is selected
     public bool insight; // if the tile is in sight
+
+    public Tile parent; // used when moving to targetted tile
     
     void Start() {
         walkable = true;

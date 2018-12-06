@@ -26,7 +26,7 @@ public class PlayerMove : TacticsMove {
             Debug.DrawRay(transform.position, transform.forward);
 
             if (!moving) {
-                FindPath(maxEyeOfPlayer, maxMoveOfPlayer);
+                FindPath(this);
                 CheckMouse();
             } else {
                 Move(this);

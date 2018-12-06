@@ -88,11 +88,16 @@ public class MenuScript : Init {
                 tile.transform.parent = row.transform;
                 tile.tag = "Tile";
                 tile.transform.position = row.transform.position + Vector3.forward * (j - 1);
-                /*
+                ///*
                 if (!(i == 1 && j == 1 || i == 1 && j == MapWid || i == MapLen && j == 1 || i == MapLen && j == MapWid)) {
-                    tile.transform.position += Vector3.up * UnityEngine.Random.Range(-2.0f, 2.0f);
+                    tile.transform.position += Vector3.up * (float)(
+                                                System.Math.Sqrt(MapLen* MapLen / 4 + MapWid* MapWid / 4)
+                                                - System.Math.Sqrt((i - MapLen / 2)* (i - MapLen / 2) 
+                                                                 + (j - MapWid / 2)* (j - MapWid / 2))
+                                                                                                     )/3;
+                    tile.transform.position += Vector3.up * UnityEngine.Random.Range(-0.5f, 0.5f);
                 }
-                */
+                //*/
                 tile.AddComponent<Tile>();
                 tile.GetComponent<Tile>().x = i;
                 tile.GetComponent<Tile>().y = j;

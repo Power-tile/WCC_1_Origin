@@ -33,10 +33,6 @@ public class TacticsMove : SwitchTurn {
     private Tile currentTile; // marking the tile that the player is standing
     private Point currentPoint; // storing the tile in a point form
 
-    // tmpMaxEye, tmpMaxMove stores the maxeye and maxmove of the current player. (maxeye and maxmove may differ among players)
-    private int tmpMaxEye;
-    private int tmpMaxMove;
-
     private Tile targetTile; // marking the targetted tile
     private Point targetPoint; // stroing the targetted tile in a point form
 
@@ -55,14 +51,12 @@ public class TacticsMove : SwitchTurn {
     void Update() {
         // Get and stores the maxeye and maxmove of current player.
         GameObject currentPlayer = GameObject.Find("Player" + currentPlayerNumber.ToString());
-        tmpMaxEye = currentPlayer.GetComponent<PlayerMove>().maxEyeOfPlayer;
-        tmpMaxMove = currentPlayer.GetComponent<PlayerMove>().maxMoveOfPlayer;
     }
 
     /// <summary>
     /// Find the tiles that the players can see
     /// </summary>
-    public void SpfaEye(Tile t) {
+    public void SpfaEye(Tile t, PlayerMove p) {
         int[,] dis = new int[MapLen + 1, MapWid + 1];
         bool[,] visited = new bool[MapLen + 10, MapWid + 10];
         Queue<Point> q = new Queue<Point>();
@@ -89,7 +83,7 @@ public class TacticsMove : SwitchTurn {
                 if (Valid(u, v)) {
                     if (dis[u.x, u.y] + eyecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
                         dis[v.x, v.y] = dis[u.x, u.y] + eyecost[MapType[v.x, v.y]];
-                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= tmpMaxEye) {
+                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= p.maxEyeOfPlayer) {
                             Point ppush = new Point(v.x, v.y);
                             q.Enqueue(ppush);
                             visited[v.x, v.y] = true;
@@ -102,7 +96,7 @@ public class TacticsMove : SwitchTurn {
         for (int i=1; i<=MapLen; i++) {
             for (int j=1; j<=MapWid; j++) {
                 GameObject.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject.GetComponent<Tile>().eyedis = dis[i, j];
-                if (dis[i, j] <= tmpMaxEye) {
+                if (dis[i, j] <= p.maxEyeOfPlayer) {
                     GameObject row = GameObject.Find("Row" + i.ToString());
                     GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
                     eyelist.Add(tile.GetComponent<Tile>());
@@ -116,7 +110,7 @@ public class TacticsMove : SwitchTurn {
     /// <summary>
     /// Find the tiles that the players can move to.
     /// </summary>
-    public void SpfaMove(Tile t) {
+    public void SpfaMove(Tile t, PlayerMove p) {
         int[,] dis = new int[MapLen + 10, MapWid + 10];
         bool[,] visited = new bool[MapLen + 1, MapWid + 1];
         Queue<Point> q = new Queue<Point>();
@@ -145,7 +139,7 @@ public class TacticsMove : SwitchTurn {
                     if (dis[u.x, u.y] + movecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
                         dis[v.x, v.y] = dis[u.x, u.y] + movecost[MapType[v.x, v.y]];
                         prev[v.x, v.y] = new Point(u.x, u.y); // Record path
-                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= tmpMaxMove) {
+                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= p.maxMoveOfPlayer) {
                             Point ppush = new Point(v.x, v.y);
                             q.Enqueue(ppush);
                             visited[v.x, v.y] = true;
@@ -158,7 +152,7 @@ public class TacticsMove : SwitchTurn {
         for (int i = 1; i <= MapLen; i++) {
             for (int j = 1; j <= MapWid; j++) {
                 GameObject.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject.GetComponent<Tile>().movedis = dis[i, j];
-                if (dis[i, j] <= tmpMaxMove) {
+                if (dis[i, j] <= p.maxMoveOfPlayer) {
                     GameObject row = GameObject.Find("Row" + i.ToString());
                     GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
                     movelist.Add(tile.GetComponent<Tile>());
@@ -190,22 +184,20 @@ public class TacticsMove : SwitchTurn {
     /// <summary>
     /// Find the tiles that the players can see and the tiles that the players can move to.
     /// </summary>
-    public void FindPath(int eye, int move) {
-        tmpMaxEye = eye;
-        tmpMaxMove = move;
-
+    public void FindPath(PlayerMove p) {
         GetCurrentTile();
         currentPoint = new Point(currentTile.x, currentTile.y);
 
-        SpfaEye(currentTile);
-        SpfaMove(currentTile);
+        SpfaEye(currentTile, p);
+        SpfaMove(currentTile, p);
     }
 
     /// <summary>
-    /// Check if point p exists in map.
+    /// Check if point q exists in map and the height difference of tile p and tile q.
     /// </summary>
     public bool Valid(Point p, Point q) {
-        return q.x > 0 && q.x <= MapLen && q.y > 0 && q.y <= MapWid && Mathf.Abs(p.y - q.y) <= 2;
+        return q.x > 0 && q.x <= MapLen && q.y > 0 && q.y <= MapWid
+            && Mathf.Abs(PointToTile(p).gameObject.transform.position.y - PointToTile(q).gameObject.transform.position.y) <= 2;
     }
 
     /// Some initiating sequences when a player selects the targetted tile
@@ -221,6 +213,7 @@ public class TacticsMove : SwitchTurn {
         while (now != currentPoint) {
             Point tmp = now;
             now = prev[tmp.x, tmp.y];
+            PointToTile(tmp).parent = PointToTile(now);
             pathPoint.Push(now);
             path.Push(PointToTile(now));
         }
@@ -231,7 +224,7 @@ public class TacticsMove : SwitchTurn {
             Tile t = path.Peek();
             Vector3 target = t.transform.position;
 
-            target.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y; // Calculate the unit position on top of target tiles
+            target.y += halfHeight + t.gameObject.GetComponent<Collider>().bounds.extents.y; // Calculate the unit position on top of target tiles
 
             if (Vector3.Distance(p.gameObject.transform.position, target) >= 0.05f) {
                 bool jump = p.gameObject.transform.position.y != target.y;
@@ -345,7 +338,7 @@ public class TacticsMove : SwitchTurn {
     }
     
     private void MoveToEdge(PlayerMove p) {
-        if (Vector3.Distance(p.gameObject.transform.position, jumpTarget) >= 0.05f) {
+        if (Vector3.Distance(p.gameObject.transform.position, jumpTarget) >= 0.133f) {
             SetHorizontalVelocity(p);
         } else {
             movingEdge = false;

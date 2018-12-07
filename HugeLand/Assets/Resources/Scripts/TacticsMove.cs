@@ -139,7 +139,7 @@ public class TacticsMove : SwitchTurn {
                     if (dis[u.x, u.y] + movecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
                         dis[v.x, v.y] = dis[u.x, u.y] + movecost[MapType[v.x, v.y]];
                         prev[v.x, v.y] = new Point(u.x, u.y); // Record path
-                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= p.maxMoveOfPlayer) {
+                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= p.maxMoveOfPlayer) { /// !!! Change to p.currentMoveOfPlayer after turned
                             Point ppush = new Point(v.x, v.y);
                             q.Enqueue(ppush);
                             visited[v.x, v.y] = true;
@@ -152,7 +152,7 @@ public class TacticsMove : SwitchTurn {
         for (int i = 1; i <= MapLen; i++) {
             for (int j = 1; j <= MapWid; j++) {
                 GameObject.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject.GetComponent<Tile>().movedis = dis[i, j];
-                if (dis[i, j] <= p.maxMoveOfPlayer) {
+                if (dis[i, j] <= p.maxMoveOfPlayer) { /// !!! Change to p.currentMoveOfPlayer after turned
                     GameObject row = GameObject.Find("Row" + i.ToString());
                     GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
                     movelist.Add(tile.GetComponent<Tile>());

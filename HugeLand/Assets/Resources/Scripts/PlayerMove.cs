@@ -12,12 +12,18 @@ public class PlayerMove : TacticsMove {
     public int maxEyeOfPlayer = maxeye;
     public int maxMoveOfPlayer = maxmove;
 
-	// Use this for initialization
-	void Start () {
+    public int currentEyeOfPlayer;
+    public int currentMoveOfPlayer;
+
+    // Use this for initialization
+    void Start () {
         moving = false;
         selfNumber = int.Parse(this.name.Split('r')[1]);
+
         moveSpeed = 2.0f;
         jumpVelocity = 4.5f;
+
+        currentMoveOfPlayer = maxMoveOfPlayer;
 	}
 	
 	// Update is called once per frame

@@ -30,7 +30,7 @@ public class CameraRotate : MonoBehaviour {
         if (GameObject.Find("Player4").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled) { n = 4; }
         GameObject CurrentPlayer = GameObject.Find("Player" + n.ToString());
         GameObject CurrentCamera = GameObject.Find("Player" + n.ToString()).transform.Find("Camera").gameObject;
-        CurrentCamera.transform.RotateAround(CurrentPlayer.transform.position, Vector3.up,-5);
+        CurrentCamera.transform.RotateAround(CurrentPlayer.transform.position, Vector3.up, -5);
         differ -= 5;
         //CurrentPlayer.transform.rotation = Quaternion.Euler(0.0f, CurrentPlayer.transform.rotation.y + 10.0f, 0.0f);
     }

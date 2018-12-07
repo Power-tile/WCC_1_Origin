@@ -344,7 +344,7 @@ public class TacticsMove : SwitchTurn {
             movingEdge = false;
             fallingDown = true;
 
-            velocity /= 5.0f;
+            velocity /= 2.0f;
             velocity.y = 1.5f;
         }
     }

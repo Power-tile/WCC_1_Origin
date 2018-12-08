@@ -13,13 +13,11 @@ public class SwitchTurn : Init {
         if (GameObject.Find("Player3").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled) { n = 3; }
         if (GameObject.Find("Player4").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled) { n = 4; }
         Debug.Log(n);
+        //GUI.Label(new Rect(Screen.width * 0.5f, Screen.height * 0.5f, 100, 30), "This is Player" + n.ToString() + "'s turn\n Please pass the device and press Space");
         GameObject.Find("Player" + n.ToString()).transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
         n %= 4; n++;
-        //GUI.Label(new Rect(Screen.width * 0.5f, Screen.height * 0.5f, 100, 30),"This is Player"+n.ToString()+"'s turn\n Please pass the device and press Space");
-        //if(Input.GetKeyDown(KeyCode.Space))
-        //{
-            GameObject.Find("Player" + n.ToString()).transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
-        //}
+        GameObject.Find("Player" + n.ToString()).transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
+        currentPlayerNumber = n;
     }
 
     void Start() {
@@ -32,5 +30,6 @@ public class SwitchTurn : Init {
 
     void Update() {
         // Switch to the next player
+
     }
 }

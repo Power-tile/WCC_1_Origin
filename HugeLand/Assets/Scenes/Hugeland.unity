@@ -7603,7 +7603,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1798607289}
+      - m_Target: {fileID: 0}
         m_MethodName: RotateRight
         m_Mode: 1
         m_Arguments:
@@ -23128,29 +23128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42294eb0f1004d943984052bfad8b3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  differ: 0
-  PrevDir:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  Dir:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
 --- !u!114 &369278413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30353,7 +30330,6 @@ GameObject:
   - component: {fileID: 507870884}
   - component: {fileID: 507870888}
   - component: {fileID: 507870887}
-  - component: {fileID: 507870889}
   - component: {fileID: 507870885}
   m_Layer: 0
   m_Name: Camera
@@ -30425,18 +30401,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &507870889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 507870883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7dc23d1906614488c92243cbbe7360, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPlayerNumber: 1
 --- !u!1 &507998764
 GameObject:
   m_ObjectHideFlags: 0
@@ -94368,40 +94332,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 369278413}
-        m_MethodName: switchturn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1798607292}
-        m_MethodName: switchturn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1688242113}
-        m_MethodName: switchturn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 507870889}
-        m_MethodName: switchturn
+        m_MethodName: switchTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -106305,7 +106236,6 @@ GameObject:
   - component: {fileID: 1688242108}
   - component: {fileID: 1688242112}
   - component: {fileID: 1688242111}
-  - component: {fileID: 1688242113}
   - component: {fileID: 1688242109}
   m_Layer: 0
   m_Name: Camera
@@ -106377,18 +106307,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &1688242113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1688242107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7dc23d1906614488c92243cbbe7360, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPlayerNumber: 1
 --- !u!1 &1693558498
 GameObject:
   m_ObjectHideFlags: 0
@@ -112760,8 +112678,6 @@ GameObject:
   - component: {fileID: 1798607287}
   - component: {fileID: 1798607291}
   - component: {fileID: 1798607290}
-  - component: {fileID: 1798607289}
-  - component: {fileID: 1798607292}
   - component: {fileID: 1798607288}
   m_Layer: 0
   m_Name: Camera
@@ -112790,40 +112706,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1798607286}
   m_Enabled: 1
---- !u!114 &1798607289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1798607286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42294eb0f1004d943984052bfad8b3ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  differ: 0
-  PrevDir:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  Dir:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
 --- !u!124 &1798607290
 Behaviour:
   m_ObjectHideFlags: 0
@@ -112867,18 +112749,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &1798607292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1798607286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7dc23d1906614488c92243cbbe7360, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPlayerNumber: 1
 --- !u!1 &1800560092
 GameObject:
   m_ObjectHideFlags: 0
@@ -119043,7 +118913,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1798607289}
+      - m_Target: {fileID: 0}
         m_MethodName: RotateLeft
         m_Mode: 1
         m_Arguments:

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CameraRotate : MonoBehaviour {
+public class CameraRotate : Init {
 
     public static float[] differ = new float[7] {0,0,0,0,0,0,0}; //recording the angle difference between current rotate and initial rotate for each player
 
@@ -52,6 +52,10 @@ public class CameraRotate : MonoBehaviour {
                 break;
             }
         }
+
+        if (Input.mousePosition.x < Screen.width / 10) differ[n] += (Screen.width / 5 - Input.mousePosition.x) / (Screen.width / 5) * 2f;
+        if (Input.mousePosition.x > Screen.width / 10 * 9) differ[n] -= (Input.mousePosition.x - Screen.width /  5* 4) / (Screen.width / 5) * 2f;
+
         GameObject player = GameObject.Find("Player"+n.ToString());
         GameObject camera = player.transform.Find("Camera").gameObject;
         Debug.Log(differ);

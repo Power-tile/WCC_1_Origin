@@ -58,6 +58,10 @@ public class Tile : Init {
         exist = true;
         insight = false;
 
+        selectable = false;
+        selected = false;
+        current = false;
+
         eyedis = INF;
         movedis = INF;
     }

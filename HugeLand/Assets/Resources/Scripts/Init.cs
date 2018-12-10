@@ -20,7 +20,12 @@ public class Init : MonoBehaviour {
     public static int[] eyecost = new int[4] { 20, 25, 10, 10 }; // moving cost of different types of terrain
     public static int maxeye = 80; // max eye cost for player
     public static int maxmove = 60; // max move cost for player
-    //public static int timecnt = 0;//time counter, used for periodical operation
+    // public static int timecnt = 0; // time counter, used for periodical operation
+
+    /// <summary>
+    /// Infinite value.
+    /// </summary>
+    public static readonly int INF = 0x7fffffff - 0x7f;
 
     /// <summary>
     /// This is for generating temporary test landscapes for the map.
@@ -89,8 +94,7 @@ public class Init : MonoBehaviour {
         GiveLandscape();
     }
 
-    void Update()
-    {
-        
+    void Update() {
+
     }
 }

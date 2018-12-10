@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour {
+public class Tile : Init {
     public bool walkable; // true - can get on
     public bool current; // mark if the player is standing on this tile
     public int type; // terrain type
@@ -17,11 +17,12 @@ public class Tile : MonoBehaviour {
     public bool insight; // if the tile is in sight
 
     public Tile parent; // used when moving to targetted tile
-    
+
     void Start() {
         walkable = true;
         current = false;
         exist = true;
+        insight = false;
     }
 
     void Update() {
@@ -49,5 +50,15 @@ public class Tile : MonoBehaviour {
             exist = false;
             walkable = false;
         }
+    }
+
+    public void Initialize() {
+        walkable = true;
+        current = false;
+        exist = true;
+        insight = false;
+
+        eyedis = INF;
+        movedis = INF;
     }
 }

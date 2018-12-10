@@ -5,8 +5,7 @@ using UnityEngine;
 public class SwitchTurn : Init {
     public static int currentPlayerNumber = 1;
 
-	public void switchTurn()
-    {
+    public void switchTurn() {
         /*
         int n = 0;
         if (GameObject.Find("Player1").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled) { n = 1; }
@@ -24,8 +23,9 @@ public class SwitchTurn : Init {
         */
 
         GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
+        GameObject.Find("Player" + currentPlayerNumber.ToString()).GetComponent<PlayerMove>().Clear();
         currentPlayerNumber = ((currentPlayerNumber + 1) % 4 == 0) ? 4 : (currentPlayerNumber + 1) % 4;
-        Debug.Log(currentPlayerNumber);
+        GameObject.Find("Player" + currentPlayerNumber.ToString()).GetComponent<PlayerMove>().Initialize();
         GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
     }
 

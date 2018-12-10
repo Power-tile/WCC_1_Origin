@@ -91,10 +91,10 @@ public class MenuScript : Init {
                 ///*
                 if (!(i == 1 && j == 1 || i == 1 && j == MapWid || i == MapLen && j == 1 || i == MapLen && j == MapWid)) {
                     tile.transform.position += Vector3.up * (float)(
-                                                System.Math.Sqrt(MapLen* MapLen / 4 + MapWid* MapWid / 4)
-                                                - System.Math.Sqrt((i - MapLen / 2)* (i - MapLen / 2) 
-                                                                 + (j - MapWid / 2)* (j - MapWid / 2))
-                                                                                                     )/3;
+                                                System.Math.Sqrt(MapLen * MapLen / 4 + MapWid * MapWid / 4)
+                                                - System.Math.Sqrt((i - MapLen / 2) * (i - MapLen / 2)
+                                                                 + (j - MapWid / 2) * (j - MapWid / 2))
+                                                                                                     ) / 3;
                     tile.transform.position += Vector3.up * UnityEngine.Random.Range(-0.5f, 0.5f);
                 }
                 //*/

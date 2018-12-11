@@ -48,7 +48,7 @@ public class CameraRotate : Init {
 
         GameObject player = GameObject.Find("Player" + n.ToString());
         GameObject camera = player.transform.Find("Camera").gameObject;
-        Debug.Log(differ);
+        //Debug.Log(differ);
         float CurrentAngle = differ[n];
 
         //rotation change

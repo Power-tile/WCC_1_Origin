@@ -48,7 +48,6 @@ public class TacticsMove : SwitchTurn {
 
     void Update() {
         // Get and stores the maxeye and maxmove of current player.
-        GameObject currentPlayer = GameObject.Find("Player" + currentPlayerNumber.ToString());
     }
 
     /// <summary>

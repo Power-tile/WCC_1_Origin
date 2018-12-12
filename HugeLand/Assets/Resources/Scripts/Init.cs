@@ -27,6 +27,39 @@ public class Init : MonoBehaviour {
     /// </summary>
     public static readonly int INF = 0x7fffffff - 0x7f;
 
+    /*
+    category: Timber 1
+    type: 1; name: Oak; source: Oak; mass: 1.5;
+    type: 2; name: Willow; source: Willow; mass: 1.2;
+    
+    category: Metal 2
+    type: 1; name: Iron; source: Iron; mass: 3.0;
+    type: 2; name: Silver; source: Silver; mass: 3.9;
+
+    category: Stone 3
+    type: 1; name: Stone; source: Stone; mass: 2.5
+    */
+
+    public struct Item {
+        public int category, type;
+        public string name;
+        public float mass;
+
+        public Item(int category, int type, string name, float mass) {
+            this.category = category;
+            this.type = type;
+            this.name = name;
+            this.mass = mass;
+        }
+    }
+
+    public static int MaxCategory = 3;
+    public static List<Item>[] ItemTemplate = {
+        new List<Item> { new Item(1, 1, "Oak", 1.5f), new Item(1, 2, "Willow", 1.2f) },
+        new List<Item> { new Item(2, 1, "Iron", 3.0f), new Item(2, 2, "Silver", 3.9f) },
+        new List<Item> { new Item(3, 1, "Stone", 2.5f) }
+    };
+
     /// <summary>
     /// This is for generating temporary test landscapes for the map.
     /// </summary>

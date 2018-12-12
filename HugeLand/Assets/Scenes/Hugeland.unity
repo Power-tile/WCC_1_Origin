@@ -9821,7 +9821,7 @@ GameObject:
   - component: {fileID: 156826070}
   - component: {fileID: 156826075}
   m_Layer: 0
-  m_Name: Wood1
+  m_Name: Oak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9838,7 +9838,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1493b1d262f4e044956bd810529b519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  category: 0
   type: 0
+  name: 
+  mass: 0
   currentTile: {fileID: 0}
   rotateSpeed: 200
 --- !u!65 &156826071
@@ -42619,6 +42622,7 @@ GameObject:
   - component: {fileID: 662824870}
   - component: {fileID: 662824869}
   - component: {fileID: 662824873}
+  - component: {fileID: 662824874}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -42719,6 +42723,17 @@ MonoBehaviour:
   maxMoveOfPlayer: 75
   currentEyeOfPlayer: 0
   currentMoveOfPlayer: 0
+--- !u!114 &662824874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 662824868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b15930473f9fc40b64000c33f744f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &665859127
 GameObject:
   m_ObjectHideFlags: 0
@@ -58517,7 +58532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 932164267}
   m_Layer: 0
-  m_Name: Resources
+  m_Name: Items
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67181,6 +67196,7 @@ GameObject:
   - component: {fileID: 1057875521}
   - component: {fileID: 1057875520}
   - component: {fileID: 1057875519}
+  - component: {fileID: 1057875524}
   m_Layer: 0
   m_Name: Player3
   m_TagString: Untagged
@@ -67280,6 +67296,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1057875524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1057875518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b15930473f9fc40b64000c33f744f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1058093684
 GameObject:
   m_ObjectHideFlags: 0
@@ -96581,6 +96608,7 @@ GameObject:
   - component: {fileID: 1556925689}
   - component: {fileID: 1556925688}
   - component: {fileID: 1556925687}
+  - component: {fileID: 1556925692}
   m_Layer: 0
   m_Name: Player4
   m_TagString: Untagged
@@ -96680,6 +96708,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1556925692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1556925686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b15930473f9fc40b64000c33f744f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1557627243
 GameObject:
   m_ObjectHideFlags: 0
@@ -98539,6 +98578,7 @@ GameObject:
   - component: {fileID: 1588681896}
   - component: {fileID: 1588681895}
   - component: {fileID: 1588681894}
+  - component: {fileID: 1588681899}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Untagged
@@ -98638,6 +98678,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1588681899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1588681893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b15930473f9fc40b64000c33f744f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1590569413
 GameObject:
   m_ObjectHideFlags: 0

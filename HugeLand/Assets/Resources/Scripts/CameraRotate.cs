@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CameraRotate : SwitchTurn
+public class CameraRotate : Init
 {
 
     public static float[] differ_x = new float[7] { 30, 30, 30, 30, 30, 30, 30 };
     public static float[] differ_y = new float[7] { 0, 0, 0, 0, 0, 0, 0 };
-    Vector3 prevpos;
-    Quaternion prevrot;
+    //Vector3 prevpos;
+    //Quaternion prevrot;
     //recording the angle difference between current rotate and initial rotate for each player
     //y for rotation around y axis
     /*
@@ -39,34 +39,53 @@ public class CameraRotate : SwitchTurn
         differ_y[n] -= 5f;
     }
     */
+
+    //int currentPlayerNumber = Init.currentPlayerNumber;
+
     void Start()
     {
-        differ_y[1] = 0;
-        differ_y[2] = 0;
-        differ_y[3] = 0;
-        differ_y[4] = 0;
-        prevpos = GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.transform.position;
-        prevrot = GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.transform.rotation;
+        //prevpos = GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.transform.position;
+        //prevrot = GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.transform.rotation;
     }
 
     void Update()
     {
         int n = currentPlayerNumber;
 
-        if (Input.mousePosition.x < Screen.width / 20)
-            differ_y[n] += 3f;
-        if (Input.mousePosition.x > Screen.width / 20 * 19)
-            differ_y[n] -= 3f;
-        if (Input.mousePosition.y < Screen.height / 20)
-            differ_x[n] -= 3f;
-        if (Input.mousePosition.y > Screen.height / 20 * 19)
-            differ_x[n] += 3f;
-        if (differ_x[n] >= 90) differ_x[n] = 90;
-        if (differ_x[n] <= -90) differ_x[n] = -90;
+        //int flag_x = 0; // -1: differ_x[n]-=3f; 1: differ_x[n]+=3f
+        //int flag_y = 0; // -1: differ_y[n]-=3f; 1: differ_y[n]+=3f
+        if((Input.mousePosition.x>0)&&(Input.mousePosition.x<Screen.width)&&(Input.mousePosition.y>0)&&(Input.mousePosition.y<Screen.height))
+        {
+            if ((Input.mousePosition.x < Screen.width - 160) || (Input.mousePosition.y < Screen.height - 30))
+            {
+                if (Input.mousePosition.x < Screen.width / 20)
+                {
+                    differ_y[n] += 3f;
+                    //flag_y = 1;
+                }
+                if (Input.mousePosition.x > Screen.width / 20 * 19)
+                {
+                    differ_y[n] -= 3f;
+                    //flag_y = -1;
+                }
+                if (Input.mousePosition.y < Screen.height / 20)
+                {
+                    differ_x[n] -= 3f;
+                    //flag_x = -1;
+                }
+                if (Input.mousePosition.y > Screen.height / 20 * 19)
+                {
+                    differ_x[n] += 3f;
+                    //flag_x = 1;
+                }
+                if (differ_x[n] >= 90) differ_x[n] = 90;
+                if (differ_x[n] <= -90) differ_x[n] = -90;
+                //differ_y[n] %= 360;
+            }
+        }
 
         GameObject player = GameObject.Find("Player" + n.ToString());
         GameObject camera = player.transform.Find("Camera").gameObject;
-        camera.transform.position = 2 * Vector3.up - 3 * Vector3.back;
 
         //rotation change
         float theta = differ_y[n] - (float)player.transform.localEulerAngles.y;
@@ -94,7 +113,7 @@ public class CameraRotate : SwitchTurn
         player.transform.Find("Camera").gameObject.transform.position = CameraPos;
 
         //distance calculation
-        //while(true)
+        for(int i=1;i<=10000;i++)
         {
             Vector2 centre;
             centre.x = Screen.width / 2;
@@ -104,21 +123,25 @@ public class CameraRotate : SwitchTurn
             if (Physics.Raycast(ray, out hit))
             {
                 GameObject now = hit.collider.gameObject;
-                if((now.name!="Player1")&&(now.name != "Player2")&&(now.name != "Player3")&&(now.name != "Player4"))
+                if((now.name!="Player1")&&(now.name!= "Player2")&&(now.name!= "Player3")&&(now.name!= "Player4"))
                 {
-                    camera.transform.position = prevpos;
-                    camera.transform.rotation = prevrot;
-                    //camera.transform.position *= 0.99f;
-                    Debug.Log("camera hit");
+                    //camera.transform.position = prevpos;
+                    //camera.transform.rotation = prevrot;
+                    //differ_x[n] -= flag_x * 3f;
+                    //differ_y[n] -= flag_y * 3f;
+                    Vector3 pos = camera.transform.position-player.transform.position;
+                    pos.x = pos.x * 0.8f;
+                    pos.y = (pos.y - 0.1f) * 0.8f + 0.1f;
+                    pos.z = pos.z * 0.8f;
+                    camera.transform.position = pos+player.transform.position;
                 }
                 else
                 {
-                    //break;
+                    break;
                 }
             }
         }
-
-        prevpos = camera.transform.position;
-        prevrot = camera.transform.rotation;
+        //prevpos = camera.transform.position;
+        //prevrot = camera.transform.rotation;
     }
 }

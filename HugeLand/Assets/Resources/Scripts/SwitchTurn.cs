@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SwitchTurn : Init {
-    public static int currentPlayerNumber = 1;
-
     public void switchTurn() {
         /*
         int n = 0;
@@ -42,6 +40,8 @@ public class SwitchTurn : Init {
         GameObject.Find("Player2").transform.Find("Camera").gameObject.SetActive(false);
         GameObject.Find("Player3").transform.Find("Camera").gameObject.SetActive(false);
         GameObject.Find("Player4").transform.Find("Camera").gameObject.SetActive(false);
+
+        currentPlayerNumber = 1;
     }
 
     void Update() {

@@ -170,12 +170,14 @@ public class TacticsMove : SwitchTurn {
 
     public Tile GetTargetTile(GameObject target) {
         RaycastHit hit;
-        Tile tile = null;
 
         Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1);
-        tile = hit.collider.GetComponentInParent<Tile>();
+        GameObject x = hit.collider.gameObject;
+        while (x.tag != "Tile") {
+            x = x.transform.parent.gameObject;
+        }
 
-        return tile;
+        return x.GetComponent<Tile>();
     }
 
     /// <summary>

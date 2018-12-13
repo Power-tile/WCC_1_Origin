@@ -7,9 +7,9 @@ public class Items : Init {
     public int type; // Stores the type of the item
     public string name; // Stores the name of the item type
     public float mass; // mass of the item
+    public float rotateSpeed; // The rotating speed of the resource
 
     public Tile currentTile; // The tile which this resource lies on
-    public float rotateSpeed = 0.01f; // The rotating speed of the resource
 
     private Vector3 velocity;
     
@@ -17,12 +17,12 @@ public class Items : Init {
         GetBasicInformation();
 
         CheckCurrentTile();
+
+        IgnoreCollider();
     }
 
     void Update() {
         RotateSelf();
-        CheckCurrentTile();
-        PhysicsDownFall();
     }
 
     private void RotateSelf() {
@@ -35,9 +35,6 @@ public class Items : Init {
         Physics.Raycast(this.transform.position, -Vector3.up, out hit, 1);
         if (hit.collider != null) {
             GameObject x = hit.collider.gameObject;
-            while (x.tag != "Tile") {
-                x = x.transform.parent.gameObject;
-            }
 
             currentTile = x.GetComponent<Tile>();
         }
@@ -48,15 +45,21 @@ public class Items : Init {
             if (item.type == type) {
                 name = item.name;
                 mass = item.mass;
+                rotateSpeed = item.rotateSpeed;
 
                 return;
             }
         }
     }
 
-    private void PhysicsDownFall() {
-        if (Vector3.Distance(transform.position, currentTile.gameObject.transform.position) > 0) {
-
+    private void IgnoreCollider() {
+        if (currentTile != null) {
+            if (currentTile.insight) {
+                Physics.IgnoreCollision(this.GetComponent<Collider>(), currentTile.gameObject.transform.Find("Fog").GetComponent<Collider>(), true);
+            }
+            if (currentTile.selectable || currentTile.selected || currentTile.current) {
+                Physics.IgnoreCollision(this.GetComponent<Collider>(), currentTile.gameObject.transform.Find("Select").GetComponent<Collider>(), true);
+            }
         }
     }
 }

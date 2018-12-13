@@ -23,9 +23,11 @@ public class SwitchTurn : Init {
         */
 
         GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
+        GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.SetActive(false);
         GameObject.Find("Player" + currentPlayerNumber.ToString()).GetComponent<PlayerMove>().Clear();
         currentPlayerNumber = ((currentPlayerNumber + 1) % 4 == 0) ? 4 : (currentPlayerNumber + 1) % 4;
         GameObject.Find("Player" + currentPlayerNumber.ToString()).GetComponent<PlayerMove>().Initialize();
+        GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.SetActive(true);
         GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = true;
     }
 
@@ -35,6 +37,11 @@ public class SwitchTurn : Init {
         GameObject.Find("Player2").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
         GameObject.Find("Player3").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
         GameObject.Find("Player4").transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
+
+        GameObject.Find("Player1").transform.Find("Camera").gameObject.SetActive(true);
+        GameObject.Find("Player2").transform.Find("Camera").gameObject.SetActive(false);
+        GameObject.Find("Player3").transform.Find("Camera").gameObject.SetActive(false);
+        GameObject.Find("Player4").transform.Find("Camera").gameObject.SetActive(false);
     }
 
     void Update() {

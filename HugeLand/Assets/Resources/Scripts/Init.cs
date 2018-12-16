@@ -27,8 +27,6 @@ public class Init : MonoBehaviour {
     /// </summary>
     public static readonly int INF = 0x7fffffff - 0x7f;
 
-    public static int currentPlayerNumber = 1;
-
     /*
     category: Timber 1
     type: 1; name: Oak; source: Oak; mass: 1.5; RotateSpeed: -2.5

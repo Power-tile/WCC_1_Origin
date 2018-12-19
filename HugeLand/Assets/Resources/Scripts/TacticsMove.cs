@@ -163,28 +163,20 @@ public class TacticsMove : SwitchTurn {
     /// <summary>
     /// Get the current tile under the player.
     /// </summary>
-    public void GetCurrentTile() {
-        currentTile = GetTargetTile(gameObject);
+    public void GetCurrentTile(GameObject player) {
+        currentTile = GetTargetTile(player);
         currentTile.current = true;
     }
 
     public Tile GetTargetTile(GameObject target) {
-        RaycastHit hit;
-
-        Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1);
-        GameObject x = hit.collider.gameObject;
-        while (x.tag != "Tile") {
-            x = x.transform.parent.gameObject;
-        }
-
-        return x.GetComponent<Tile>();
+        return PointToTile(new Point((int)System.Math.Truncate(target.transform.position.x) + 1, (int)System.Math.Truncate(target.transform.position.z) + 1));
     }
 
     /// <summary>
     /// Find the tiles that the players can see and the tiles that the players can move to.
     /// </summary>
     public void FindPath(PlayerMove p) {
-        GetCurrentTile();
+        GetCurrentTile(p.gameObject);
         currentPoint = new Point(currentTile.x, currentTile.y);
 
         SpfaEye(currentTile, p);
@@ -205,7 +197,7 @@ public class TacticsMove : SwitchTurn {
     public void MoveToTile(PlayerMove p, Tile t) {
         p.moving = true;
         t.selected = true;
-        halfHeight = p.gameObject.GetComponent<Collider>().bounds.extents.y;
+        halfHeight = p.gameObject.transform.Find("Character").gameObject.GetComponent<Collider>().bounds.extents.y;
 
         targetPoint = new Point(t.x, t.y);
         pathPoint.Push(targetPoint);

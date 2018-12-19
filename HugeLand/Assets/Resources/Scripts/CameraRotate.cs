@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CameraRotate : Init
-{
+public class CameraRotate : Init {
 
     public static float[] differ_x = new float[7] { 30, 30, 30, 30, 30, 30, 30 };
     public static float[] differ_y = new float[7] { 0, 0, 0, 0, 0, 0, 0 };
@@ -42,40 +41,32 @@ public class CameraRotate : Init
 
     //int currentPlayerNumber = Init.currentPlayerNumber;
 
-    void Start()
-    {
+    void Start() {
         //prevpos = GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.transform.position;
         //prevrot = GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.transform.rotation;
     }
 
-    void Update()
-    {
+    void Update() {
         int n = currentPlayerNumber;
 
         //int flag_x = 0; // -1: differ_x[n]-=3f; 1: differ_x[n]+=3f
         //int flag_y = 0; // -1: differ_y[n]-=3f; 1: differ_y[n]+=3f
-        if((Input.mousePosition.x>0)&&(Input.mousePosition.x<Screen.width)&&(Input.mousePosition.y>0)&&(Input.mousePosition.y<Screen.height))
-        {
-            if ((Input.mousePosition.x < Screen.width - 160) || (Input.mousePosition.y < Screen.height - 30))
-            {
-                if (Input.mousePosition.x < Screen.width / 20)
-                {
+        if ((Input.mousePosition.x > 0) && (Input.mousePosition.x < Screen.width) && (Input.mousePosition.y > 0) && (Input.mousePosition.y < Screen.height)) {
+            if ((Input.mousePosition.x < Screen.width - 160) || (Input.mousePosition.y < Screen.height - 30)) {
+                if (Input.mousePosition.x < Screen.width / 20) {
                     differ_y[n] += 3f;
                     //flag_y = 1;
                 }
-                if (Input.mousePosition.x > Screen.width / 20 * 19)
-                {
+                if (Input.mousePosition.x > Screen.width / 20 * 19) {
                     differ_y[n] -= 3f;
                     //flag_y = -1;
                 }
-                if (Input.mousePosition.y < Screen.height / 20)
-                {
-                    differ_x[n] -= 3f;
+                if (Input.mousePosition.y < Screen.height / 20) {
+                    differ_x[n] += 3f;
                     //flag_x = -1;
                 }
-                if (Input.mousePosition.y > Screen.height / 20 * 19)
-                {
-                    differ_x[n] += 3f;
+                if (Input.mousePosition.y > Screen.height / 20 * 19) {
+                    differ_x[n] -= 3f;
                     //flag_x = 1;
                 }
                 if (differ_x[n] >= 90) differ_x[n] = 90;
@@ -113,30 +104,27 @@ public class CameraRotate : Init
         player.transform.Find("Camera").gameObject.transform.position = CameraPos;
 
         //distance calculation
-        for(int i=1;i<=10000;i++)
-        {
+        for (int i = 1; i <= 10000; i++) {
             Vector2 centre;
             centre.x = Screen.width / 2;
             centre.y = Screen.height / 2;
             Ray ray = camera.GetComponent<Camera>().ScreenPointToRay(centre);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
+            if (Physics.Raycast(ray, out hit)) {
                 GameObject now = hit.collider.gameObject;
-                if((now.name!="Player1")&&(now.name!= "Player2")&&(now.name!= "Player3")&&(now.name!= "Player4"))
-                {
+                if (now.name != "Character") {
                     //camera.transform.position = prevpos;
                     //camera.transform.rotation = prevrot;
                     //differ_x[n] -= flag_x * 3f;
                     //differ_y[n] -= flag_y * 3f;
-                    Vector3 pos = camera.transform.position-player.transform.position;
+                    now = now.transform.parent.gameObject;
+                    Vector3 pos = camera.transform.position - player.transform.position;
                     pos.x = pos.x * 0.8f;
                     pos.y = (pos.y - 0.1f) * 0.8f + 0.1f;
                     pos.z = pos.z * 0.8f;
-                    camera.transform.position = pos+player.transform.position;
+                    camera.transform.position = pos + player.transform.position;
                 }
-                else
-                {
+                else {
                     break;
                 }
             }

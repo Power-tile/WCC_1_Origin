@@ -40,6 +40,8 @@ public class Init : MonoBehaviour {
     type: 1; name: Stone; source: Stone; mass: 2.5; RotateSpeed: 10.0
     */
 
+    public static int currentPlayerNumber = 1;
+
     public struct Item {
         public int category, type;
         public string name;

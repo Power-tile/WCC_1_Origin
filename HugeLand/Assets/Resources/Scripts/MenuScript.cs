@@ -81,7 +81,7 @@ public class MenuScript : Init {
             GameObject row = new GameObject();
             row.name = "Row" + i.ToString();
             row.transform.parent = map.transform;
-            row.transform.position = Vector3.left * (i - 1);
+            row.transform.position = Vector3.right * (i - 1);
             for (int j = 1; j <= MapWid; j++) {
                 GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 tile.name = "Tile" + j.ToString();

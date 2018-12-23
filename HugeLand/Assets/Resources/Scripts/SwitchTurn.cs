@@ -23,7 +23,7 @@ public class SwitchTurn : Init {
         GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.GetComponent<Camera>().enabled = false;
         GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.SetActive(false);
         GameObject.Find("Player" + currentPlayerNumber.ToString()).GetComponent<PlayerMove>().Clear();
-        currentPlayerNumber = ((currentPlayerNumber + 1) % 4 == 0) ? 4 : currentPlayerNumber + 1;
+        currentPlayerNumber = ((currentPlayerNumber + 1) % 4 == 0) ? 4 : (currentPlayerNumber + 1)%4;
         Debug.Log(currentPlayerNumber);
         GameObject.Find("Player" + currentPlayerNumber.ToString()).GetComponent<PlayerMove>().Initialize();
         GameObject.Find("Player" + currentPlayerNumber.ToString()).transform.Find("Camera").gameObject.SetActive(true);

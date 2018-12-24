@@ -54,7 +54,7 @@ public class Items : Init {
 
     private void IgnoreCollider() {
         if (currentTile != null) {
-            if (currentTile.insight) {
+            if (!currentTile.insight) {
                 Physics.IgnoreCollision(this.GetComponent<Collider>(), currentTile.gameObject.transform.Find("Fog").GetComponent<Collider>(), true);
             }
             if (currentTile.selectable || currentTile.selected || currentTile.current) {

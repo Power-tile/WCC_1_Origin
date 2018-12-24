@@ -106,6 +106,7 @@ public class MenuScript : Init {
                 fog.name = "Fog";
                 fog.transform.parent = tile.transform;
                 fog.transform.position = tile.transform.position + Vector3.up * 1;
+                DestroyImmediate(fog.GetComponent<MeshCollider>());
                 //fog.AddComponent<BoxCollider>();
 
                 GameObject select = Instantiate(SelectTemplate);
@@ -115,5 +116,10 @@ public class MenuScript : Init {
                 select.AddComponent<BoxCollider>();
             }
         }
+    }
+
+    [MenuItem("Tools/Import Land Model Origin")]
+    public static void ImportLandModelOrigin() {
+        //for (int i = 1; i <= )
     }
 }

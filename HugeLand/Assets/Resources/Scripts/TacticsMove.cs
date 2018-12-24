@@ -198,6 +198,7 @@ public class TacticsMove : SwitchTurn {
         p.moving = true;
         t.selected = true;
         halfHeight = p.gameObject.transform.Find("Character").gameObject.GetComponent<Collider>().bounds.extents.y;
+        p.currentMoveOfPlayer -= t.movedis;
 
         targetPoint = new Point(t.x, t.y);
         pathPoint.Push(targetPoint);

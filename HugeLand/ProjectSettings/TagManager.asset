@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tile
   - Row
+  - Item
   layers:
   - Default
   - TransparentFX

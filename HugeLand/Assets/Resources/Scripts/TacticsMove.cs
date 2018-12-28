@@ -169,7 +169,9 @@ public class TacticsMove : SwitchTurn {
     }
 
     public Tile GetTargetTile(GameObject target) {
-        return PointToTile(new Point((int)System.Math.Truncate(target.transform.position.x) + 1, (int)System.Math.Truncate(target.transform.position.z) + 1));
+        return target.gameObject.GetComponent<PlayerInventory>().currentTile
+             = PointToTile(new Point((int)System.Math.Truncate(target.transform.position.x) + 1,
+                                     (int)System.Math.Truncate(target.transform.position.z) + 1));
     }
 
     /// <summary>
@@ -237,6 +239,7 @@ public class TacticsMove : SwitchTurn {
             }
             else { // Reached the tile center
                 p.gameObject.transform.position = target;
+                p.gameObject.GetComponent<PlayerInventory>().currentTile = t;
                 path.Pop();
             }
         }

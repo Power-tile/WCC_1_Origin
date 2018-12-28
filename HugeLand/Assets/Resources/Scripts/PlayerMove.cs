@@ -27,6 +27,8 @@ public class PlayerMove : TacticsMove {
         jumpVelocity = 4.5f;
 
         currentMoveOfPlayer = maxMoveOfPlayer;
+
+        GetTargetTile(this.gameObject);
     }
 
     // Update is called once per frame
@@ -41,6 +43,8 @@ public class PlayerMove : TacticsMove {
             else {
                 Move(this);
             }
+        } else {
+            GetTargetTile(this.gameObject);
         }
     }
 

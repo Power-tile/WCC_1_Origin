@@ -41,10 +41,10 @@ public class TacticsMove : SwitchTurn {
     private Vector3 velocity = new Vector3(); // storing the velocity of the current player
     private Vector3 heading = new Vector3(); // storing the heading (head direction) of the current player
 
-    private bool fallingDown = false;
-    private bool jumpingUp = false;
-    private bool movingEdge = false;
-    private Vector3 jumpTarget;
+    private bool fallingDown = false; // if the player is falling down
+    private bool jumpingUp = false; // if the player is jumping up
+    private bool movingEdge = false; // if the player is moving to the edge of the tile
+    private Vector3 jumpTarget; // the target of the player's jump
 
     void Update() {
         // Get and stores the maxeye and maxmove of current player.
@@ -168,9 +168,13 @@ public class TacticsMove : SwitchTurn {
         currentTile.current = true;
     }
 
+    /// <summary>
+    /// Get the tile directly under the GameObject target.
+    /// </summary>
+    /// <param name="target"> The required GameObject. </param>
+    /// <returns> Returns the tile directly under GameObject target. </returns>
     public Tile GetTargetTile(GameObject target) {
-        return target.gameObject.GetComponent<PlayerInventory>().currentTile
-             = PointToTile(new Point((int)System.Math.Truncate(target.transform.position.x) + 1,
+        return PointToTile(new Point((int)System.Math.Truncate(target.transform.position.x) + 1,
                                      (int)System.Math.Truncate(target.transform.position.z) + 1));
     }
 
@@ -196,12 +200,15 @@ public class TacticsMove : SwitchTurn {
     /// <summary>
     /// Some initiating sequences when a player selects the targetted tile
     /// </summary>
-    public void MoveToTile(PlayerMove p, Tile t) {
-        p.moving = true;
-        t.selected = true;
-        halfHeight = p.gameObject.transform.Find("Character").gameObject.GetComponent<Collider>().bounds.extents.y;
-        p.currentMoveOfPlayer -= t.movedis;
+    /// <param name="p"></param>
+    /// <param name="t"></param>
+    public void MoveToTile(PlayerMove p, Tile t) { // current player; target
+        p.moving = true; // player is moving
+        t.selected = true; // mark the selected tile
+        halfHeight = p.gameObject.transform.Find("Character").gameObject.GetComponent<Collider>().bounds.extents.y; // obtain halfheight
+        p.currentMoveOfPlayer -= t.movedis; // reduce the moving point of the player
 
+        // Finding the path from player's current position to the target position
         targetPoint = new Point(t.x, t.y);
         pathPoint.Push(targetPoint);
         path.Push(PointToTile(targetPoint));

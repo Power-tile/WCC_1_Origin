@@ -29,15 +29,15 @@ public class Init : MonoBehaviour {
 
     /*
     category: Timber 1
-    type: 0; name: Oak; source: Oak; mass: 1.5; RotateSpeed: -2.5
-    type: 1; name: Willow; source: Willow; mass: 1.2; RotateSpeed: -2.0
+    type: 0; name: Oak; source: Oak; mass: 1.5; RotateSpeed: -25
+    type: 1; name: Willow; source: Willow; mass: 1.2; RotateSpeed: -20
     
     category: Metal 2
-    type: 0; name: Iron; source: Iron; mass: 3.0; RotateSpeed: 5.0
-    type: 1; name: Silver; source: Silver; mass: 3.9; RotateSpeed: 3.0
+    type: 0; name: Iron; source: Iron; mass: 3.0; RotateSpeed: 50
+    type: 1; name: Silver; source: Silver; mass: 3.9; RotateSpeed: 30
 
     category: Stone 3
-    type: 0; name: Stone; source: Stone; mass: 2.5; RotateSpeed: 10.0
+    type: 0; name: Stone; source: Stone; mass: 2.5; RotateSpeed: 100
     */
 
     public static int currentPlayerNumber = 1;
@@ -59,9 +59,11 @@ public class Init : MonoBehaviour {
     public static int itemMaxCategory = 3;
     public static int itemMaxType = 2;
     public static List<Item>[] ItemTemplate = {
-        new List<Item> { new Item(0, 0, "Oak", 1.5f, -2.5f), new Item(0, 1, "Willow", 1.2f, -2.0f) },
-        new List<Item> { new Item(1, 0, "Iron", 3.0f, 5.0f), new Item(1, 1, "Silver", 3.9f, 3.0f) },
-        new List<Item> { new Item(2, 0, "Stone", 2.5f, 10.0f) }
+        new List<Item> { new Item(0, 0, "Oak", 1.5f, -25f),
+                         new Item(0, 1, "Willow", 1.2f, -20f) },
+        new List<Item> { new Item(1, 0, "Iron", 3.0f, 50f),
+                         new Item(1, 1, "Silver", 3.9f, 30f) },
+        new List<Item> { new Item(2, 0, "Stone", 2.5f, 100f) }
     };
 
     /// <summary>

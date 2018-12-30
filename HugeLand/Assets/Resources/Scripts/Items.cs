@@ -17,8 +17,7 @@ public class Items : Init {
         GetBasicInformation();
 
         currentTile = transform.parent.gameObject.GetComponent<Tile>();
-        SetTransform(currentTile);
-        IgnoreCollider();
+        DropToGround(currentTile);
     }
 
     void Update() {
@@ -26,10 +25,10 @@ public class Items : Init {
     }
 
     /// <summary>
-    /// Get the basic information of the item.
+    /// Get the basic data of the item.
     /// </summary>
     private void GetBasicInformation() {
-        Item item = ItemTemplate[itemCategory][itemType];
+        Item item = ItemTemplate[itemCategory][itemType]; // Find the data of the item from array itemTemplate.
         itemName = item.name;
         itemMass = item.mass;
         itemRotateSpeed = item.rotateSpeed;
@@ -43,36 +42,44 @@ public class Items : Init {
     }
 
     /// <summary>
-    /// Set the item on top of Tile t, while adding a Rigidbody component to it.
+    /// Drop the item onto Tile t.
     /// </summary>
     /// <param name="t"></param>
-    private void SetTransform(Tile t) {
+    private void DropToGround(Tile t) {
+        currentTile = t; // set currentTile to t
+
+        has_tile_parent = true; // has a valid Tile parent
+        status = false; // on the ground
+        transform.parent = t.gameObject.transform; // set the parent of the item to Tile t
+
         this.gameObject.AddComponent<Rigidbody>();
+        this.gameObject.AddComponent<BoxCollider>();
         transform.localPosition = Vector3.up * 1.0f;
         transform.localRotation.Set(0, 0, 0, 0);
         transform.localScale.Set(0.2f, 0.2f, 0.2f);
-    }
 
-    /// <summary>
-    /// Ignore the colliders of fog and select.
-    /// </summary>
-    private void IgnoreCollider() {
         if (currentTile != null) {
             /*
-            if (!currentTile.insight) {
+            if (!currentTile.insight) { // ignore fog collider
                 Physics.IgnoreCollision(this.GetComponent<Collider>(), currentTile.gameObject.transform.Find("Fog").GetComponent<Collider>(), true);
             }
-            */ // Currently there is no collider on fog
-            if (currentTile.selectable || currentTile.selected || currentTile.current) {
+            */ // no collider on fog, statement not necessary
+            if (currentTile.selectable || currentTile.selected || currentTile.current) { // ignore select collider
                 Physics.IgnoreCollision(this.GetComponent<Collider>(), currentTile.gameObject.transform.Find("Select").GetComponent<Collider>(), true);
             }
+        }
+
+        // ignore player collider
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in players) {
+            Physics.IgnoreCollision(this.GetComponent<Collider>(), player.transform.Find("Character").gameObject.GetComponent<MeshCollider>());
         }
     }
 
     /// <summary>
     /// Add this item to PlayerInventory playerInventory.
     /// </summary>
-    /// <param name="playerInventory"></param>
+    /// <param name="playerInventory"> The inventory that this item is going to be added to. </param>
     public void AddToPlayerInventory(PlayerInventory playerInventory) {
         status = true; // picked up by player
         has_tile_parent = false; // no longer has a Tile parent
@@ -80,13 +87,12 @@ public class Items : Init {
         transform.parent = playerInventory.transform; // link the item to the player
         playerInventory.inventory[itemCategory, itemType]++; // record the item in player's inventory
 
-        // Delete the Rigidbody component of the item
+        // Delete the Rigidbody and BoxCollider component of the item
         Destroy(this.gameObject.GetComponent<Rigidbody>());
+        Destroy(this.gameObject.GetComponent<BoxCollider>());
 
-        // Reset the transform of this Item
-        this.transform.localPosition.Set(0, 0, 0);
-        this.transform.localRotation.Set(0, 0, 0, 0);
-        this.transform.localScale.Set(0.0001f, 0.0001f, 0.0001f);
+        // Hide the picked item
+        this.GetComponent<MeshRenderer>().enabled = false;
     }
 
     /// <summary>
@@ -94,13 +100,8 @@ public class Items : Init {
     /// </summary>
     /// <param name="playerInventory"></param>
     public void DropFromPlayerInventory(PlayerInventory playerInventory) {
-        status = false; // on the ground
         playerInventory.inventory[itemCategory, itemType]--; // delete the item from player's inventory
 
-        currentTile = playerInventory.currentTile; // set the currentTile of the player
-        transform.parent = currentTile.gameObject.transform; // link the item to currentTile
-        SetTransform(currentTile); // set the transform of the item
-        IgnoreCollider(); // ignore the collider of the select and fog
-        has_tile_parent = true; // has a valid Tile parent
+        DropToGround(playerInventory.currentTile); // drop the item on player's currentTile
     }
 }

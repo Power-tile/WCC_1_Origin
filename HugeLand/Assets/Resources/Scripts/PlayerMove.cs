@@ -39,12 +39,11 @@ public class PlayerMove : TacticsMove {
             if (!moving) {
                 FindPath(this);
                 CheckMouse();
-            }
-            else {
+            } else {
                 Move(this);
             }
         } else {
-            GetTargetTile(this.gameObject);
+            this.gameObject.GetComponent<PlayerInventory>().currentTile = GetTargetTile(this.gameObject);
         }
     }
 

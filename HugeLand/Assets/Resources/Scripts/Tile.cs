@@ -33,16 +33,13 @@ public class Tile : Init {
         if (current) { // player is standing on the tile
             select.SetActive(true);
             select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/GreenSelect");
-        }
-        else if (selected) { // player selected the tile
+        } else if (selected) { // player selected the tile
             select.SetActive(true);
             select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/RedSelect");
-        }
-        else if (selectable) { // player can select the tile
+        } else if (selectable) { // player can select the tile
             select.SetActive(true);
             select.GetComponent<Renderer>().material = Resources.Load<Material>("SelectMaterial/BlueSelect");
-        }
-        else {
+        } else { // do not need select sign
             select.SetActive(false);
         }
 

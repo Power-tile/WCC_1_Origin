@@ -18,11 +18,10 @@ public class Tile : Init {
 
     public Tile parent; // used when moving to targetted tile
 
+    public int[,] itemList = new int[itemMaxCategory, itemMaxType];
+
     void Start() {
-        walkable = true;
-        current = false;
-        exist = true;
-        insight = false;
+        Initialize();
     }
 
     void Update() {
@@ -61,5 +60,19 @@ public class Tile : Init {
 
         eyedis = INF;
         movedis = INF;
+
+        for (int i = 0; i < itemMaxCategory; i++) {
+            for (int j = 0; j < itemMaxType; j++) {
+                itemList[i, j] = 0;
+            }
+        }
+    }
+
+    public void AddToTile(Items item) {
+        item.gameObject.name = item.itemName + (++itemList[item.itemCategory, item.itemType]).ToString();
+    }
+
+    public void DeleteFromTile(Items item) {
+        itemList[item.itemCategory, item.itemType]--;
     }
 }

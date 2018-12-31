@@ -107,6 +107,7 @@ public class MenuScript : Init {
                 fog.transform.parent = tile.transform;
                 fog.transform.position = tile.transform.position + Vector3.up * 1;
                 DestroyImmediate(fog.GetComponent<MeshCollider>());
+                fog.tag = "Fog";
                 //fog.AddComponent<BoxCollider>();
 
                 GameObject select = Instantiate(SelectTemplate);
@@ -114,6 +115,7 @@ public class MenuScript : Init {
                 select.transform.parent = tile.transform;
                 select.transform.position = tile.transform.position + Vector3.up * 0.51f;
                 select.AddComponent<BoxCollider>();
+                select.tag = "Select";
             }
         }
     }

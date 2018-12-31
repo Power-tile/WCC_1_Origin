@@ -2,24 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInventory : Init {
+public class PlayerInventory : TacticsMove {
     public Tile currentTile; // the tile the player is now standing on
 
     public int[,] inventory = new int[itemMaxCategory, itemMaxType]; // recording the items in the player's inventory
 
     void Start() {
-        InitInventory();
+        InitInventory(); // initialize the inventory of the player
     }
 
     void Update() {
-        CheckItem(currentTile);
+        currentTile = GetTargetTile(this.gameObject); // get the tile under the player
+        CheckItem(currentTile); // check the items on the tile
     }
 
     /// <summary>
     /// Check the item on the Tile tile.
     /// </summary>
     /// <param name="tile"></param>
-    private void CheckItem(Tile tile) {
+    public void CheckItem(Tile tile) {
         //Debug.Log(tile.gameObject.transform.childCount);
         if (tile != null && tile.gameObject.transform.childCount > 2) { // currentTile already obtained && currentTile has items
             //Debug.Log(tile.gameObject.transform.childCount);
@@ -41,5 +42,15 @@ public class PlayerInventory : Init {
                 inventory[i, j] = 0;
             }
         }
+    }
+
+    public void AddToPlayer(Items item) {
+        item.transform.parent = this.transform;
+        item.gameObject.name = item.itemName + (++inventory[item.itemCategory, item.itemType]).ToString();
+    }
+
+    public void DeleteFromPlayer(Items item) {
+        item.transform.parent = null;
+        inventory[item.itemCategory, item.itemType]--;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TacticsMove : SwitchTurn {
     public struct Point { // stores a pair of coordinates of a tile
@@ -16,6 +17,19 @@ public class TacticsMove : SwitchTurn {
 
         public static bool operator !=(Point p, Point q) {
             return !(p.x == q.x && p.y == q.y);
+        }
+
+        public override bool Equals(object obj) {
+            if (obj is Point) {
+                Point p = (Point)obj;
+                return x == p.x && y == p.y;
+            } else {
+                return false;
+            }
+        }
+
+        public override int GetHashCode() {
+            return x.GetHashCode() ^ y.GetHashCode();
         }
     }
 
@@ -149,7 +163,7 @@ public class TacticsMove : SwitchTurn {
         for (int i = 1; i <= MapLen; i++) {
             for (int j = 1; j <= MapWid; j++) {
                 GameObject.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject.GetComponent<Tile>().movedis = dis[i, j];
-                if (dis[i, j] <= p.currentMoveOfPlayer) { /// !!! Change to p.currentMoveOfPlayer after turned
+                if (dis[i, j] <= p.currentMoveOfPlayer && PointToTile(new Point(i, j)).insight) {
                     GameObject row = GameObject.Find("Row" + i.ToString());
                     GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
                     movelist.Add(tile.GetComponent<Tile>());
@@ -163,9 +177,10 @@ public class TacticsMove : SwitchTurn {
     /// <summary>
     /// Get the current tile under the player.
     /// </summary>
+    /// <param name="player"> The required player. </param>
     public void GetCurrentTile(GameObject player) {
-        currentTile = GetTargetTile(player);
-        currentTile.current = true;
+        currentTile = GetTargetTile(player); // get the tile under the currentPlayer
+        currentTile.current = true; // player is standing on this tile, show green select sign
     }
 
     /// <summary>
@@ -174,8 +189,8 @@ public class TacticsMove : SwitchTurn {
     /// <param name="target"> The required GameObject. </param>
     /// <returns> Returns the tile directly under GameObject target. </returns>
     public Tile GetTargetTile(GameObject target) {
-        return PointToTile(new Point((int)System.Math.Truncate(target.transform.position.x) + 1,
-                                     (int)System.Math.Truncate(target.transform.position.z) + 1));
+        return PointToTile(new Point((int)System.Math.Truncate(target.transform.position.x) + 1, // row of the tile
+                                     (int)System.Math.Truncate(target.transform.position.z) + 1)); // column of the tile
     }
 
     /// <summary>
@@ -207,6 +222,8 @@ public class TacticsMove : SwitchTurn {
         t.selected = true; // mark the selected tile
         halfHeight = p.gameObject.transform.Find("Character").gameObject.GetComponent<Collider>().bounds.extents.y; // obtain halfheight
         p.currentMoveOfPlayer -= t.movedis; // reduce the moving point of the player
+        Text text = GameObject.Find("Canvas").transform.Find("RequiredMovePointNumber").gameObject.GetComponent<Text>();
+        text.text = "0  ";
 
         // Finding the path from player's current position to the target position
         targetPoint = new Point(t.x, t.y);

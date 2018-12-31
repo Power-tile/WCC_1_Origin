@@ -11,12 +11,14 @@ public class Items : Init {
 
     public bool status = false; // the status of the item: false - laying on the ground; true - on player
     public bool has_tile_parent = false; // the status of the item: false - no parent OR has player parent; true - has Tile parent
+    public bool init_state = true;
     public Tile currentTile; // The tile which this resource lies on
     
     void Start() {
         GetBasicInformation();
 
         currentTile = transform.parent.gameObject.GetComponent<Tile>();
+        init_state = true;
         DropToGround(currentTile);
     }
 
@@ -45,15 +47,22 @@ public class Items : Init {
     /// Drop the item onto Tile t.
     /// </summary>
     /// <param name="t"></param>
-    private void DropToGround(Tile t) {
+    public void DropToGround(Tile t) {
         currentTile = t; // set currentTile to t
 
         has_tile_parent = true; // has a valid Tile parent
         status = false; // on the ground
-        transform.parent = t.gameObject.transform; // set the parent of the item to Tile t
+        if (!init_state) {
+            transform.parent.GetComponent<PlayerInventory>().DeleteFromPlayer(this);
+        } else {
+            init_state = false;
+        }
+        
+        t.AddToTile(this); // add the item to tile
 
         this.gameObject.AddComponent<Rigidbody>();
         this.gameObject.AddComponent<BoxCollider>();
+        this.gameObject.GetComponent<MeshRenderer>().enabled = true; // show the item
         transform.localPosition = Vector3.up * 1.0f;
         transform.localRotation.Set(0, 0, 0, 0);
         transform.localScale.Set(0.2f, 0.2f, 0.2f);
@@ -83,9 +92,9 @@ public class Items : Init {
     public void AddToPlayerInventory(PlayerInventory playerInventory) {
         status = true; // picked up by player
         has_tile_parent = false; // no longer has a Tile parent
+        currentTile.DeleteFromTile(this); // delete self from tile list
         currentTile = null; // no currentTile needed
-        transform.parent = playerInventory.transform; // link the item to the player
-        playerInventory.inventory[itemCategory, itemType]++; // record the item in player's inventory
+        playerInventory.AddToPlayer(this);
 
         // Delete the Rigidbody and BoxCollider component of the item
         Destroy(this.gameObject.GetComponent<Rigidbody>());

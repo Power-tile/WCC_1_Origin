@@ -7,6 +7,8 @@ TagManager:
   - Tile
   - Row
   - Item
+  - Fog
+  - Select
   layers:
   - Default
   - TransparentFX

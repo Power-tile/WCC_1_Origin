@@ -46,7 +46,6 @@ public class SwitchTurn : Init {
     }
 
     void Update() {
-        // Switch to the next player
 
     }
 }

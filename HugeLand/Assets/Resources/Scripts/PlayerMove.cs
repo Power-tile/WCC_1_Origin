@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMove : TacticsMove {
     public bool moving = false; // marking if the player is moving or not
@@ -9,61 +10,73 @@ public class PlayerMove : TacticsMove {
 
     public int selfNumber; // storing the number of the player
 
-    public int maxEyeOfPlayer;
-    public int maxMoveOfPlayer;
+    public int maxEyeOfPlayer; // the max eye point of the player
+    public int maxMoveOfPlayer; // the max move point of the player
 
-    public int currentEyeOfPlayer;
-    public int currentMoveOfPlayer;
+    public int currentEyeOfPlayer; // the current eye point of the player
+    public int currentMoveOfPlayer; // the current move point of the player
 
     // Use this for initialization
     void Start() {
-        maxEyeOfPlayer = maxeye;
-        maxMoveOfPlayer = maxmove;
+        maxEyeOfPlayer = maxeye; // set player's eye point data to default
+        maxMoveOfPlayer = maxmove; // set player's move point data to default
 
-        moving = false;
-        selfNumber = int.Parse(this.name.Split('r')[1]);
+        moving = false; // player is not moving
+        selfNumber = int.Parse(this.name.Split('r')[1]); // get the player's number from player's name
 
-        moveSpeed = 2.0f;
-        jumpVelocity = 4.5f;
+        moveSpeed = 2.0f; // set the moveSpeed of the player
+        jumpVelocity = 4.5f; // set the jumpVelocity of the player
 
-        currentMoveOfPlayer = maxMoveOfPlayer;
-
-        GetTargetTile(this.gameObject);
+        currentMoveOfPlayer = maxMoveOfPlayer; // reset move point of player
     }
 
     // Update is called once per frame
     void Update() {
         if (currentPlayerNumber == selfNumber) {
-            Debug.DrawRay(transform.position, transform.forward);
+            Debug.DrawRay(transform.position, transform.forward); // debug ray, showing the player's facing direction
+            ShowCurrentMovePoint(); // show the current move point of the player
 
             if (!moving) {
-                FindPath(this);
-                CheckMouse();
+                FindPath(this); // find the possible tiles which the player can go to
+                CheckMouse(); // check the position of the mouse (showing move point cost and go to tile when clicked)
             } else {
-                Move(this);
+                Move(this); // complete the action of moving
             }
-        } else {
-            this.gameObject.GetComponent<PlayerInventory>().currentTile = GetTargetTile(this.gameObject);
         }
     }
 
     void CheckMouse() {
-        if (Input.GetMouseButtonUp(0)) {
-            Camera cam = this.transform.Find("Camera").gameObject.GetComponent<Camera>();
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        bool flag = false; // if the mouse is resting on a tile
+        bool has_value = false; // if the tile has a valid move point cost value
+        Camera cam = this.transform.Find("Camera").gameObject.GetComponent<Camera>(); // get the player's camera
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition); // emit a ray from the mouse
+        Text text = GameObject.Find("Canvas").transform.Find("RequiredMovePointNumber").gameObject.GetComponent<Text>();
 
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit)) {
-                GameObject now = hit.collider.gameObject;
-                while (now.tag != "Tile") {
-                    now = now.transform.parent.gameObject;
-                }
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit)) {
+            GameObject now = hit.collider.gameObject;
+            if (now.tag == "Select" || now.tag == "Fog") { // mouse resting on select/fog
+                now = now.transform.parent.gameObject; // find the tile
+                flag = true;
+            } else if (now.tag == "Tile") { // mouse resting on tile directly
+                flag = true;
+            } else { // mouse not resting on tile/select/fog
 
-                Tile t = now.GetComponent<Tile>();
-                if (t.selectable) {
-                    MoveToTile(this, t);
+            }
+
+            if (flag) { // now is a Tile
+                Tile t = now.GetComponent<Tile>(); // convert GameObject now to Tile t
+                if (t.selectable) { // the player can go to Tile t
+                    has_value = true; // tile has a vaild move point cost value, player can move to this tile
+                    text.text = t.movedis.ToString() + "  "; // show the cost of moving to this tile
+
+                    if (Input.GetMouseButtonUp(0)) MoveToTile(this, t); // if mouse clicked, move to this tile
                 }
             }
+        }
+
+        if (!has_value || !flag) { // mouse not resting on a tile OR player cannot go to the tile
+            text.text = "0  "; // no "cost" displayed
         }
     }
 
@@ -78,5 +91,12 @@ public class PlayerMove : TacticsMove {
         foreach (GameObject tile in list) {
             tile.GetComponent<Tile>().Initialize();
         }
+    }
+
+    private void ShowCurrentMovePoint() {
+        Text text = GameObject.Find("Canvas").transform.Find("CurrentMovePointNumber").gameObject.GetComponent<Text>();
+
+        //Debug.Log(currentMovePointNumberText);
+        text.text = currentMoveOfPlayer.ToString() + "  ";
     }
 }

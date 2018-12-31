@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Init : MonoBehaviour {
     // Marking the type of this terrain
@@ -19,7 +20,7 @@ public class Init : MonoBehaviour {
     public static int[] movecost = new int[4] { 25, 20, 40, 15 }; // moving cost of different types of terrain
     public static int[] eyecost = new int[4] { 20, 25, 10, 10 }; // moving cost of different types of terrain
     public static int maxeye = 80; // max eye cost for player
-    public static int maxmove = 60; // max move cost for player
+    public static int maxmove = 200; // max move cost for player
     // public static int timecnt = 0; // time counter, used for periodical operation
 
     /// <summary>
@@ -129,8 +130,26 @@ public class Init : MonoBehaviour {
         }
     }
 
+    public void GenerateItem() {
+        for (int i = 1; i <= MapLen; i++) {
+            for (int j = 1; j <= MapWid; j++) {
+                float possibility = UnityEngine.Random.Range(0.0f, 1.0f);
+                if (possibility <= 0.3f) {
+                    int cnt = UnityEngine.Random.Range(1, 4);
+
+                    GameObject OakTemplate = Resources.Load<GameObject>("OakTemplate");
+                    GameObject oak = Instantiate(OakTemplate);
+                    for (int k = 1; k <= cnt; k++) {
+                        oak.GetComponent<Items>().DropToGround(GameObject.Find("Map").transform.Find("Row" + i.ToString()).Find("Tile" + j.ToString()).GetComponent<Tile>());
+                    }
+                }
+            }
+        }
+    }
+
     void Start() {
         GiveLandscape();
+        GenerateItem();
     }
 
     void Update() {

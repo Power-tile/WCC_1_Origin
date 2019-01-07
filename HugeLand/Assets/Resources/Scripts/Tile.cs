@@ -67,12 +67,4 @@ public class Tile : Init {
             }
         }
     }
-
-    public void AddToTile(Items item) {
-        item.gameObject.name = item.itemName + (++itemList[item.itemCategory, item.itemType]).ToString();
-    }
-
-    public void DeleteFromTile(Items item) {
-        itemList[item.itemCategory, item.itemType]--;
-    }
 }

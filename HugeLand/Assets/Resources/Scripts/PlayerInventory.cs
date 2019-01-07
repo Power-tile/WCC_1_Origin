@@ -43,14 +43,4 @@ public class PlayerInventory : TacticsMove {
             }
         }
     }
-
-    public void AddToPlayer(Items item) {
-        item.transform.parent = this.transform;
-        item.gameObject.name = item.itemName + (++inventory[item.itemCategory, item.itemType]).ToString();
-    }
-
-    public void DeleteFromPlayer(Items item) {
-        item.transform.parent = null;
-        inventory[item.itemCategory, item.itemType]--;
-    }
 }

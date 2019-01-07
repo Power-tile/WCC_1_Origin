@@ -138,8 +138,8 @@ public class Init : MonoBehaviour {
                     int cnt = UnityEngine.Random.Range(1, 4);
 
                     GameObject OakTemplate = Resources.Load<GameObject>("OakTemplate");
-                    GameObject oak = Instantiate(OakTemplate);
                     for (int k = 1; k <= cnt; k++) {
+                        GameObject oak = Instantiate(OakTemplate);
                         oak.GetComponent<Items>().DropToGround(GameObject.Find("Map").transform.Find("Row" + i.ToString()).Find("Tile" + j.ToString()).GetComponent<Tile>());
                     }
                 }

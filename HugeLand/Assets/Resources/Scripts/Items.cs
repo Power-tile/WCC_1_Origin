@@ -47,18 +47,15 @@ public class Items : Init {
     /// Drop the item onto Tile t.
     /// </summary>
     /// <param name="t"></param>
+    /// <param name="droppedFromPlayer"> If the tile is dropped from player. </param>
     public void DropToGround(Tile t) {
         currentTile = t; // set currentTile to t
 
         has_tile_parent = true; // has a valid Tile parent
         status = false; // on the ground
-        if (!init_state) {
-            transform.parent.GetComponent<PlayerInventory>().DeleteFromPlayer(this);
-        } else {
-            init_state = false;
-        }
-        
-        t.AddToTile(this); // add the item to tile
+
+        this.gameObject.name = itemName + (++t.itemList[itemCategory, itemType]).ToString(); // add the item to tile's itemList and change name
+        this.transform.parent = t.gameObject.transform;
 
         this.gameObject.AddComponent<Rigidbody>();
         this.gameObject.AddComponent<BoxCollider>();
@@ -92,9 +89,10 @@ public class Items : Init {
     public void AddToPlayerInventory(PlayerInventory playerInventory) {
         status = true; // picked up by player
         has_tile_parent = false; // no longer has a Tile parent
-        currentTile.DeleteFromTile(this); // delete self from tile list
+        currentTile.itemList[itemCategory, itemType]--; // delete self from tile list
         currentTile = null; // no currentTile needed
-        playerInventory.AddToPlayer(this);
+        this.transform.parent = playerInventory.transform; // set the item's parent to the player
+        this.gameObject.name = itemName + (++playerInventory.inventory[itemCategory, itemType]).ToString(); // rename the item
 
         // Delete the Rigidbody and BoxCollider component of the item
         Destroy(this.gameObject.GetComponent<Rigidbody>());
@@ -110,7 +108,6 @@ public class Items : Init {
     /// <param name="playerInventory"></param>
     public void DropFromPlayerInventory(PlayerInventory playerInventory) {
         playerInventory.inventory[itemCategory, itemType]--; // delete the item from player's inventory
-
-        DropToGround(playerInventory.currentTile); // drop the item on player's currentTile
+        DropToGround(playerInventory.currentTile);
     }
 }

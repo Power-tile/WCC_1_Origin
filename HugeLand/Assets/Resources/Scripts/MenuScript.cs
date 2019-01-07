@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public class MenuScript : Init {
+public class MenuScript : Init
+{
     //This is only for assigning the names and positions of the first tiles; DO NOT REUSE.
     /*
     [MenuItem("Tools/Assign First Row Tile")]
@@ -71,25 +72,30 @@ public class MenuScript : Init {
 
     /// <summary> This is for creating an initiative map, sized MapLen, MapWid; DO NOT USE WHEN MAP EXISTS. </summary>
     [MenuItem("Tools/Generate Map")]
-    public static void MapGenerating() {
+    public static void MapGenerating()
+    {
         GameObject map = new GameObject();
         map.name = "Map";
         GameObject FogTemplate = Resources.Load<GameObject>("Fog");
         GameObject SelectTemplate = Resources.Load<GameObject>("Select");
 
-        for (int i = 1; i <= MapLen; i++) {
+        for (int i = 1; i <= MapLen; i++)
+        {
             GameObject row = new GameObject();
             row.name = "Row" + i.ToString();
             row.transform.parent = map.transform;
             row.transform.position = Vector3.right * (i - 1);
-            for (int j = 1; j <= MapWid; j++) {
+            for (int j = 1; j <= MapWid; j++)
+            {
+                //GameObject tile = Instantiate(Resources.Load<GameObject>("shity-0.obj"));
                 GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 tile.name = "Tile" + j.ToString();
                 tile.transform.parent = row.transform;
                 tile.tag = "Tile";
                 tile.transform.position = row.transform.position + Vector3.forward * (j - 1);
                 ///*
-                if (!(i == 1 && j == 1 || i == 1 && j == MapWid || i == MapLen && j == 1 || i == MapLen && j == MapWid)) {
+                if (!(i == 1 && j == 1 || i == 1 && j == MapWid || i == MapLen && j == 1 || i == MapLen && j == MapWid))
+                {
                     tile.transform.position += Vector3.up * (float)(
                                                 System.Math.Sqrt(MapLen * MapLen / 4 + MapWid * MapWid / 4)
                                                 - System.Math.Sqrt((i - MapLen / 2) * (i - MapLen / 2)
@@ -121,7 +127,32 @@ public class MenuScript : Init {
     }
 
     [MenuItem("Tools/Import Land Model Origin")]
-    public static void ImportLandModelOrigin() {
-        //for (int i = 1; i <= )
+    public static void ImportLandModelOrigin()
+    {
+        GameObject map = new GameObject();
+        map.name = "MapWithModel";
+        map.transform.position.Set(0, 10, 0);
+        for (int i = 1; i <= 35; i++)
+        {
+            GameObject tmp = Resources.Load<GameObject>("Landscape/Map (" + i.ToString() + ")");
+            GameObject landTemplate = null;
+            for (int j = 0; j < tmp.transform.childCount; j++)
+            {
+                object child = tmp.transform.GetChild(j);
+                if (child is Transform)
+                {
+                    landTemplate = ((Transform)child).gameObject;
+                    break;
+                }
+            }
+
+            if (landTemplate == null) Debug.Log("Having a whistle landTemplate not working!!!");
+
+            GameObject land = Instantiate(landTemplate);
+            land.transform.parent = map.transform;
+            land.name = "Map (" + i.ToString() + ")";
+            land.transform.localScale = 0.008f * Vector3.one;
+            land.transform.position = 10 * Vector3.up + i * Vector3.forward;
+        }
     }
 }

@@ -57,8 +57,8 @@ public class Items : Init {
         this.gameObject.name = itemName + (++t.itemList[itemCategory, itemType]).ToString(); // add the item to tile's itemList and change name
         this.transform.parent = t.gameObject.transform;
 
-        this.gameObject.AddComponent<Rigidbody>();
-        this.gameObject.AddComponent<BoxCollider>();
+        if (this.gameObject.GetComponent<Rigidbody>() == null) this.gameObject.AddComponent<Rigidbody>();
+        if (this.gameObject.GetComponent<BoxCollider>() == null) this.gameObject.AddComponent<BoxCollider>();
         this.gameObject.GetComponent<MeshRenderer>().enabled = true; // show the item
         transform.localPosition = Vector3.up * 1.0f;
         transform.localRotation.Set(0, 0, 0, 0);
@@ -95,8 +95,8 @@ public class Items : Init {
         this.gameObject.name = itemName + (++playerInventory.inventory[itemCategory, itemType]).ToString(); // rename the item
 
         // Delete the Rigidbody and BoxCollider component of the item
-        Destroy(this.gameObject.GetComponent<Rigidbody>());
-        Destroy(this.gameObject.GetComponent<BoxCollider>());
+        if (this.gameObject.GetComponent<Rigidbody>() != null) Destroy(this.gameObject.GetComponent<Rigidbody>());
+        if (this.gameObject.GetComponent<BoxCollider>() != null) Destroy(this.gameObject.GetComponent<BoxCollider>());
 
         // Hide the picked item
         this.GetComponent<MeshRenderer>().enabled = false;

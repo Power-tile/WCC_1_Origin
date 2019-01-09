@@ -4,35 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TacticsMove : SwitchTurn {
-    public struct Point { // stores a pair of coordinates of a tile
-        public int x, y;
-        public Point(int x, int y) { // used for assigning tiles
-            this.x = x;
-            this.y = y;
-        }
-
-        public static bool operator ==(Point p, Point q) {
-            return p.x == q.x && p.y == q.y;
-        }
-
-        public static bool operator !=(Point p, Point q) {
-            return !(p.x == q.x && p.y == q.y);
-        }
-
-        public override bool Equals(object obj) {
-            if (obj is Point) {
-                Point p = (Point)obj;
-                return x == p.x && y == p.y;
-            } else {
-                return false;
-            }
-        }
-
-        public override int GetHashCode() {
-            return x.GetHashCode() ^ y.GetHashCode();
-        }
-    }
-
     // array of moving; up - down - left - right
     public int[] dirx = new int[4] { 0, 0, -1, 1 };
     public int[] diry = new int[4] { -1, 1, 0, 0 };
@@ -91,7 +62,7 @@ public class TacticsMove : SwitchTurn {
 
             for (int i = 0; i < 4; i++) {
                 Point v = new Point(u.x + dirx[i], u.y + diry[i]);
-                if (Valid(u, v)) {
+                if (ValidTileForMoving(u, v)) {
                     if (dis[u.x, u.y] + eyecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
                         dis[v.x, v.y] = dis[u.x, u.y] + eyecost[MapType[v.x, v.y]];
                         if (!visited[v.x, v.y] && dis[v.x, v.y] <= p.maxEyeOfPlayer) {
@@ -146,7 +117,7 @@ public class TacticsMove : SwitchTurn {
 
             for (int i = 0; i < 4; i++) {
                 Point v = new Point(u.x + dirx[i], u.y + diry[i]);
-                if (Valid(u, v)) {
+                if (ValidTileForMoving(u, v)) {
                     if (dis[u.x, u.y] + movecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
                         dis[v.x, v.y] = dis[u.x, u.y] + movecost[MapType[v.x, v.y]];
                         prev[v.x, v.y] = new Point(u.x, u.y); // Record path
@@ -179,18 +150,8 @@ public class TacticsMove : SwitchTurn {
     /// </summary>
     /// <param name="player"> The required player. </param>
     public void GetCurrentTile(GameObject player) {
-        currentTile = GetTargetTile(player); // get the tile under the currentPlayer
+        currentTile = GetTileUnderObject(player); // get the tile under the currentPlayer
         currentTile.current = true; // player is standing on this tile, show green select sign
-    }
-
-    /// <summary>
-    /// Get the tile directly under the GameObject target.
-    /// </summary>
-    /// <param name="target"> The required GameObject. </param>
-    /// <returns> Returns the tile directly under GameObject target. </returns>
-    public Tile GetTargetTile(GameObject target) {
-        return PointToTile(new Point((int)System.Math.Truncate(target.transform.position.x) + 1, // row of the tile
-                                     (int)System.Math.Truncate(target.transform.position.z) + 1)); // column of the tile
     }
 
     /// <summary>
@@ -205,9 +166,9 @@ public class TacticsMove : SwitchTurn {
     }
 
     /// <summary>
-    /// Check if point q exists in map and the height difference of tile p and tile q.
+    /// Check if point q exists in map and the height difference of tile p and tile q is smaller than 2.
     /// </summary>
-    public bool Valid(Point p, Point q) {
+    public bool ValidTileForMoving(Point p, Point q) {
         return q.x > 0 && q.x <= MapLen && q.y > 0 && q.y <= MapWid
             && Mathf.Abs(PointToTile(p).gameObject.transform.position.y - PointToTile(q).gameObject.transform.position.y) <= 2;
     }
@@ -376,12 +337,5 @@ public class TacticsMove : SwitchTurn {
             velocity /= 2.0f;
             velocity.y = 1.5f;
         }
-    }
-
-    /// <summary>
-    /// Transforms a Point-formed tile to a Tile-formed tile.
-    /// </summary>
-    public Tile PointToTile(Point p) {
-        return GameObject.Find("Row" + p.x.ToString()).transform.Find("Tile" + p.y.ToString()).gameObject.GetComponent<Tile>();
     }
 }

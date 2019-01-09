@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Init : MonoBehaviour {
+    public static int screenResolutionX = 1920;
+    public static int screenResolutionY = 1080;
+
     // Marking the type of this terrain
     /*
     type:   1   2   3   4
@@ -66,6 +69,57 @@ public class Init : MonoBehaviour {
                          new Item(1, 1, "Silver", 3.9f, 30f) },
         new List<Item> { new Item(2, 0, "Stone", 2.5f, 100f) }
     };
+    public static int pickupRange = 3;
+
+    public struct Point { // stores a pair of coordinates of a tile
+        public int x, y;
+        public Point(int x, int y) { // used for assigning tiles
+            this.x = x;
+            this.y = y;
+        }
+
+        public static bool operator ==(Point p, Point q) {
+            return p.x == q.x && p.y == q.y;
+        }
+
+        public static bool operator !=(Point p, Point q) {
+            return !(p.x == q.x && p.y == q.y);
+        }
+
+        public override bool Equals(object obj) {
+            if (obj is Point) {
+                Point p = (Point)obj;
+                return x == p.x && y == p.y;
+            } else {
+                return false;
+            }
+        }
+
+        public override int GetHashCode() {
+            return x.GetHashCode() ^ y.GetHashCode();
+        }
+    }
+
+    /// <summary>
+    /// Transforms a Point-formed tile to a Tile-formed tile.
+    /// </summary>
+    public Tile PointToTile(Point p) {
+        return GameObject.Find("Row" + p.x.ToString()).transform.Find("Tile" + p.y.ToString()).gameObject.GetComponent<Tile>();
+    }
+
+    /// <summary>
+    /// Get the tile directly under the GameObject target.
+    /// </summary>
+    /// <param name="target"> The required GameObject. </param>
+    /// <returns> Returns the tile directly under GameObject target. </returns>
+    public Tile GetTileUnderObject(GameObject target) {
+        return PointToTile(new Point((int)System.Math.Truncate(target.transform.position.x) + 1, // row of the tile
+                                     (int)System.Math.Truncate(target.transform.position.z) + 1)); // column of the tile
+    }
+
+    public bool ValidPoint(Point p) {
+        return p.x > 0 && p.x <= MapLen && p.y > 0 && p.y <= MapWid;
+    }
 
     /// <summary>
     /// This is for generating temporary test landscapes for the map.
@@ -148,6 +202,8 @@ public class Init : MonoBehaviour {
     }
 
     void Start() {
+        Screen.SetResolution(screenResolutionX, screenResolutionY, false);
+
         GiveLandscape();
         GenerateItem();
     }

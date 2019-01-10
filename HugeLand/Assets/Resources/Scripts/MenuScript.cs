@@ -150,4 +150,39 @@ public class MenuScript : Init {
             land.GetComponent<MeshRenderer>().material = landMaterial;
         }
     }
+
+    [MenuItem("Tools/Test Mesh Filter Combine")]
+    public static void MeshFilterCombine()
+    {
+        //GameObject father = Instantiate(Resources.Load<GameObject>("TestResourses/smallpart"));
+        GameObject father = GameObject.Find("Tmp");
+        GameObject tmp = father.transform.Find("Map22").gameObject;
+        GameObject total = Instantiate(Resources.Load<GameObject>("Empty"));
+        GameObject correct = Instantiate(Resources.Load<GameObject>("Empty"));
+        correct.AddComponent<MeshRenderer>();
+        correct.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Landscape/MapMaterial");
+        correct.AddComponent<MeshFilter>();
+        correct.GetComponent<MeshFilter>().sharedMesh = tmp.GetComponent<MeshFilter>().sharedMesh;
+        total.AddComponent<MeshRenderer>();
+        total.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Landscape/MapMaterial");
+        Mesh mesh = new Mesh();
+        total.AddComponent<MeshFilter>();
+        mesh.vertices = tmp.GetComponent<MeshFilter>().sharedMesh.vertices;
+        mesh.normals = tmp.GetComponent<MeshFilter>().sharedMesh.normals;
+        //mesh.triangles = tmp.GetComponent<MeshFilter>().sharedMesh.triangles;
+        Array.Copy(tmp.GetComponent<MeshFilter>().sharedMesh.triangles, mesh.triangles, tmp.GetComponent<MeshFilter>().sharedMesh.triangles.Length);
+        mesh.uv = tmp.GetComponent<MeshFilter>().sharedMesh.uv;
+        total.GetComponent<MeshFilter>().sharedMesh = mesh;
+
+        /*
+        for(int i=120000;i< correct.GetComponent<MeshFilter>().sharedMesh.triangles.Length;i++)
+        {
+            if(correct.GetComponent<MeshFilter>().sharedMesh.triangles[i]-total.GetComponent<MeshFilter>().sharedMesh.triangles[i]!=0)
+            {
+                Debug.Log(i);
+                Debug.Log(correct.GetComponent<MeshFilter>().sharedMesh.triangles[i] - total.GetComponent<MeshFilter>().sharedMesh.triangles[i]);
+            }
+        }
+        */
+    }
 }

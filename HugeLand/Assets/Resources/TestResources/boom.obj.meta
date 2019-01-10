@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 763238f05204571459dca8ff9912e854
+guid: 0c0f20ba739547a499ea1bf014702b77
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: shity-0
+    100000: boom
     100002: //RootNode
-    400000: shity-0
+    400000: boom
     400002: //RootNode
-    2100000: shity-0Mat
-    2300000: shity-0
-    3300000: shity-0
-    4300000: shity-0
+    2100000: boomMat
+    2300000: boom
+    3300000: boom
+    4300000: boom
   externalObjects: {}
   materials:
     importMaterials: 1

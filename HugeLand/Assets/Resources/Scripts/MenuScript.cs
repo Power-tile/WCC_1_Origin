@@ -151,9 +151,11 @@ public class MenuScript : Init {
         }
     }
 
+    /*
     [MenuItem("Tools/Test Mesh Filter Combine")]
     public static void MeshFilterCombine()
     {
+        //unable to combine , because they are to big
         //GameObject father = Instantiate(Resources.Load<GameObject>("TestResourses/smallpart"));
         GameObject father = GameObject.Find("Tmp");
         GameObject tmp = father.transform.Find("Map22").gameObject;
@@ -173,16 +175,156 @@ public class MenuScript : Init {
         Array.Copy(tmp.GetComponent<MeshFilter>().sharedMesh.triangles, mesh.triangles, tmp.GetComponent<MeshFilter>().sharedMesh.triangles.Length);
         mesh.uv = tmp.GetComponent<MeshFilter>().sharedMesh.uv;
         total.GetComponent<MeshFilter>().sharedMesh = mesh;
+    }
+    */
 
-        /*
-        for(int i=120000;i< correct.GetComponent<MeshFilter>().sharedMesh.triangles.Length;i++)
-        {
-            if(correct.GetComponent<MeshFilter>().sharedMesh.triangles[i]-total.GetComponent<MeshFilter>().sharedMesh.triangles[i]!=0)
-            {
-                Debug.Log(i);
-                Debug.Log(correct.GetComponent<MeshFilter>().sharedMesh.triangles[i] - total.GetComponent<MeshFilter>().sharedMesh.triangles[i]);
+    [MenuItem("Tools/Generate Imported Map")]
+    public static void GenerateImportedMap() {
+        GameObject ColliderMap = new GameObject();
+        ColliderMap.name = "Map";
+        ColliderMap.transform.position = Vector3.zero;
+        GameObject MeshMap = new GameObject();
+        MeshMap.name = "MeshMap";
+        MeshMap.transform.position = Vector3.zero;
+        GameObject Tmp = Instantiate(Resources.Load<GameObject>("ImportedMap1"));
+        Tmp.transform.position = Vector3.zero;
+        GameObject FogTemplate = Resources.Load<GameObject>("Fog");
+        GameObject SelectTemplate = Resources.Load<GameObject>("Select");
+
+        for (int i = 0; i < 7; i++) {
+            GameObject MeshRow = new GameObject();
+            MeshRow.name = "MeshRow" + i.ToString();
+            MeshRow.transform.position = (i * 25 + 12.5f) * Vector3.right;
+            MeshRow.transform.parent = MeshMap.transform;
+            for (int j = 0; j < 7; j++) {
+                //Debug.Log(i.ToString() + "," + j.ToString());
+                // Get one mesh piece
+                GameObject Land = Tmp.transform.Find("Map" + (i + 1).ToString() + (j + 1).ToString()).gameObject;
+
+                // Create new copy and set basic values
+                GameObject Cover = Instantiate(Land);
+                Cover.name = "Part" + i.ToString() + j.ToString();
+                Cover.transform.parent = MeshRow.transform;
+                Cover.transform.localScale = 0.2f * Vector3.one;
+                Cover.transform.position = (i * 25 + 12.5f) * Vector3.right + (j * 25 + 12.5f) * Vector3.forward;
+                //+ 10 * Vector3.up;
+
+                // Create mesh collider for getting ground height
+                Cover.AddComponent<MeshCollider>();
+                for (int ii = 0; ii < 25; ii++)// Split one piece of mesh into 25*25 pieces
+                    for (int jj = 0; jj < 25; jj++) {
+                        float[,] CntHeight = new float[300, 5];// 25 points' ground height count
+                        int len = 1;
+                        for (int k = 0; k <= 150; k++) { CntHeight[k, 1] = 0; }// number
+                        for (int k = 0; k <= 150; k++) { CntHeight[k, 2] = 0; }// occured times
+                        for (float iii = 0.1f; iii < 1; iii += 0.2f)
+                            for (float jjj = 0.1f; jjj < 1; jjj += 0.2f) {
+                                //float gndheight = 128;// Binary search lowest height
+                                float gndheight = 0;
+                                bool flagg = false;
+                                for (gndheight = 0; (gndheight <= 25) && (!flagg); gndheight += 0.01f) {
+                                    //Debug.Log(flagg);
+                                    Ray ray = new Ray(new Vector3(i * 25 + ii + iii, gndheight, j * 25 + jj + jjj), new Vector3(0, -1, 0));
+                                    RaycastHit hit;
+                                    if (Physics.Raycast(ray, out hit)) {
+                                        //Debug.Log(hit.point);
+                                        GameObject now = hit.collider.gameObject;
+                                        if (hit.point.y == 0) Debug.Log(now);
+                                        //Debug.Log(now);
+                                        if (now == Cover) {
+                                            //gndheight -= k;
+                                            flagg = true;
+                                        } else {
+                                            //gndheight += k;
+                                            flagg = false;
+                                        }
+                                    } else {
+                                        //gndheight += k;
+                                        flagg = false;
+                                    }
+                                    //Debug.Log(iii.ToString() + "," + jjj.ToString() + ":" + gndheight.ToString());
+                                }
+                                gndheight -= 0.01f;
+                                //Debug.Log(iii.ToString()+","+jjj.ToString()+":"+gndheight);
+                                bool flag = false;
+                                for (int k = 1; k <= len; k++) {
+                                    if (CntHeight[len, 1] == gndheight) {
+                                        flag = true;
+                                        CntHeight[len, 2]++;
+                                        break;
+                                    }
+                                }
+                                if (!flag) {
+                                    len++;
+                                    CntHeight[len, 1] = gndheight;
+                                    CntHeight[len, 2] = 1;
+                                }
+                            }
+                        int cnt = 0;// Count most occured ground height and use it as box collider height
+                        float height = 0;
+                        for (int k = 0; k <= len; k++)
+                            if (cnt <= CntHeight[k, 2]) {
+                                cnt = (int)CntHeight[k, 2];
+                                height = CntHeight[k, 1];
+                            }
+                        /*
+                        string str = "";
+                        for (int k = 0; k <= len; k++)
+                            str += CntHeight[k, 1].ToString() + " " + CntHeight[k, 2].ToString() + ";";
+                        Debug.Log(str);
+                        */
+                        GameObject collider = Instantiate(Resources.Load<GameObject>("Empty"));// Create collider
+                        collider.name = "Tile" + (j * 25 + jj + 1).ToString();
+                        collider.transform.position = (i * 25 + ii + 0.5f) * Vector3.right + (j * 25 + jj + 0.5f) * Vector3.forward + height / 2 * Vector3.up;
+
+                        GameObject tile = collider;
+                        tile.tag = "Tile";
+                        tile.AddComponent<Tile>();
+                        tile.GetComponent<Tile>().x = i;
+                        tile.GetComponent<Tile>().y = j;
+
+                        GameObject fog = Instantiate(FogTemplate);
+                        fog.name = "Fog";
+                        fog.transform.parent = tile.transform;
+                        fog.transform.position = tile.transform.position + Vector3.up * 1;
+                        DestroyImmediate(fog.GetComponent<MeshCollider>());
+                        fog.tag = "Fog";
+                        //fog.AddComponent<BoxCollider>();
+
+                        GameObject select = Instantiate(SelectTemplate);
+                        select.name = "Select";
+                        select.transform.parent = tile.transform;
+                        select.transform.position = tile.transform.position + Vector3.up * 0.51f;
+                        select.AddComponent<BoxCollider>();
+                        select.tag = "Select";
+
+                        //Debug.Log(i * 25 + ii);
+                        //Debug.Log(j * 25 + jj);
+
+                        collider.AddComponent<BoxCollider>();
+                        collider.GetComponent<BoxCollider>().size = height * Vector3.up + Vector3.right + Vector3.forward;
+                        if (GameObject.Find("Row" + (i * 25 + ii + 1).ToString()) == null) {
+                            GameObject Row = new GameObject();
+                            Row.name = "Row" + (i * 25 + ii + 1).ToString();
+                            Row.transform.position = (i * 25 + ii) * Vector3.right;
+                            Row.transform.parent = ColliderMap.transform;
+                        }
+                        collider.transform.parent = GameObject.Find("Row" + (i * 25 + ii + 1).ToString()).transform;
+                    }
+                DestroyImmediate(Cover.GetComponent<MeshCollider>());
             }
         }
-        */
+        DestroyImmediate(Tmp);
+    }
+
+    [MenuItem("Tools/Toggle Fog and Select")]
+    public static void ToggleFogAndSelect() {
+        for (int i = 1; i <= MapLen; i++) {
+            for (int j = 1; j <= MapWid; j++) {
+                GameObject tile = GameObject.Find("Map").transform.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject;
+                tile.transform.Find("Fog").localPosition += (tile.GetComponent<Collider>().bounds.extents.y + 1.0f) * Vector3.up;
+                tile.transform.Find("Select").localPosition += (tile.GetComponent<Collider>().bounds.extents.y) * Vector3.up;
+            }
+        }
     }
 }

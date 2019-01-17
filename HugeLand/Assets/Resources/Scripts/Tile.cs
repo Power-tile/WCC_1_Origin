@@ -18,7 +18,12 @@ public class Tile : Init {
 
     public Tile parent; // used when moving to targetted tile
 
-    public int[,] itemList = new int[itemMaxCategory, itemMaxType];
+    public int itemCount = 0;
+    public int[,] itemList = new int[itemMaxCategory, itemMaxType]; // recording the list of the items on this Tile
+    public GameObject[] itemListInGameObject = new GameObject[500]; // storing the items on this Tile in GameObject form
+    public Vector3[] itemPosition = new Vector3[500]; // storing the items' desired init position when shifting
+    public bool[] shiftComplete = new bool[500]; // if an item has completed the process of shifting
+    public bool onShift = false; // if the items on this Tile is in the shifting process
 
     void Start() {
         Initialize();
@@ -46,6 +51,8 @@ public class Tile : Init {
             exist = false;
             walkable = false;
         }
+
+        if (onShift) CheckShiftComplete();
     }
 
     public void Initialize() {
@@ -64,6 +71,72 @@ public class Tile : Init {
         for (int i = 0; i < itemMaxCategory; i++) {
             for (int j = 0; j < itemMaxType; j++) {
                 itemList[i, j] = 0;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Control the items on the current Tile.
+    /// </summary>
+    public void ConsoleItem() {
+        itemCount = -1; // resetting the itemCount for a new round of counting
+        for (int i = 0; i < this.transform.childCount; i++) {
+            GameObject child = this.transform.GetChild(i).gameObject; // getting the i-th child of the Tile
+            if (child.tag == "Item") { // this child is an item
+                itemListInGameObject[++itemCount] = child; // record the child in GameObject form
+                shiftComplete[itemCount] = false; // reset shiftComplete to false
+                //child.GetComponent<Items>().DropToGround(this); // shouldn't be called here; DropToGround() should be called before ConsoleItem
+            }
+        }
+        itemCount++; // 0~itemCount-1 storing items; itemCount++ to get exact number of items
+
+        Complex complex = new Complex(0, 0); // storing the complex number for position calculating
+        for (int i = 0; i < itemCount; i++) {
+            GameObject currentGameObject = itemListInGameObject[i]; // i-th item on this Tile
+            if (i == 0) { // the first item
+                if (itemCount != 1) complex = new Complex(System.Math.Cos(2 * System.Math.PI / itemCount),
+                                                          System.Math.Sin(2 * System.Math.PI / itemCount)); // first position, more than 1 item
+                //else complex = new Complex(0, 0); // only one item
+            } else { // not first item
+                complex *= new Complex(System.Math.Cos(2 * System.Math.PI / itemCount),
+                                       System.Math.Sin(2 * System.Math.PI / itemCount)); // shiftPosition for i-th item
+            }
+
+            itemPosition[i] = new Vector3(this.transform.position.x + (float)complex.real * 0.3f, // real part -> x, *0.7f considering size of the item
+                                          this.transform.position.y + this.gameObject.GetComponent<Collider>().bounds.extents.y
+                                                                    + currentGameObject.GetComponent<Collider>().bounds.extents.y,
+                                          this.transform.position.z + (float)complex.image * 0.3f); // image part -> z, *0.7f considering size of the item
+        }
+
+        for (int i = 0; i < itemCount; i++) {
+            GameObject currentGameObject = itemListInGameObject[i]; // get the i-th item on this Tile
+            currentGameObject.GetComponent<Items>().StartShifting(itemPosition[i]); // start the shifting process of this item
+        }
+
+        onShift = true; // start shifting process on this Tile
+    }
+
+    public void CheckShiftComplete() {
+        bool complete = true;
+        for (int i = 0; i < itemCount; i++) {
+            if (!shiftComplete[i]) {
+                complete = false;
+                break;
+            }
+        }
+        if (complete) {
+            onShift = false;
+            for (int i = 0; i < itemCount; i++) {
+                itemListInGameObject[i].GetComponent<Items>().shift = false;
+            }
+        }
+    }
+
+    public void RecvShiftComplete(GameObject gameObject) {
+        for (int i = 0; i < itemCount; i++) {
+            if (itemListInGameObject[i] == gameObject) {
+                shiftComplete[i] = true;
+                break;
             }
         }
     }

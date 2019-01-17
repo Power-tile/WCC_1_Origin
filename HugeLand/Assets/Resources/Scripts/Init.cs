@@ -18,7 +18,7 @@ public class Init : MonoBehaviour {
     total vision point: 80
     */
 
-    public static int MapLen = 20, MapWid = 20; // the size of the whole map: (MapLen, MapWid).
+    public static int MapLen = 175, MapWid = 175; // the size of the whole map: (MapLen, MapWid).
     public static int[,] MapType = new int[MapLen + 10, MapWid + 10]; // type of each block
     public static int[] movecost = new int[4] { 25, 20, 40, 15 }; // moving cost of different types of terrain
     public static int[] eyecost = new int[4] { 20, 25, 10, 10 }; // moving cost of different types of terrain
@@ -63,11 +63,11 @@ public class Init : MonoBehaviour {
     public static int itemMaxCategory = 3;
     public static int itemMaxType = 2;
     public static List<Item>[] ItemTemplate = {
-        new List<Item> { new Item(0, 0, "Oak", 1.5f, -25f),
-                         new Item(0, 1, "Willow", 1.2f, -20f) },
-        new List<Item> { new Item(1, 0, "Iron", 3.0f, 50f),
-                         new Item(1, 1, "Silver", 3.9f, 30f) },
-        new List<Item> { new Item(2, 0, "Stone", 2.5f, 100f) }
+        new List<Item> { new Item(0, 0, "Oak", 1.5f, 25f),
+                         new Item(0, 1, "Willow", 1.2f, 20f) },
+        new List<Item> { new Item(1, 0, "Iron", 3.0f, -50f),
+                         new Item(1, 1, "Silver", 3.9f, -30f) },
+        new List<Item> { new Item(2, 0, "Stone", 2.5f, -100f) }
     };
     public static int pickupRange = 3;
 
@@ -97,6 +97,18 @@ public class Init : MonoBehaviour {
 
         public override int GetHashCode() {
             return x.GetHashCode() ^ y.GetHashCode();
+        }
+    }
+
+    public struct Complex {
+        public double real, image;
+        public Complex(double real, double image) {
+            this.real = real;
+            this.image = image;
+        }
+
+        public static Complex operator *(Complex p, Complex q) {
+            return new Complex(p.real * q.real - p.image * q.image, p.real * q.image + p.image * q.real);
         }
     }
 
@@ -189,14 +201,15 @@ public class Init : MonoBehaviour {
             for (int j = 1; j <= MapWid; j++) {
                 float possibility = UnityEngine.Random.Range(0.0f, 1.0f);
                 if (possibility <= 0.3f) {
-                    int cnt = UnityEngine.Random.Range(1, 4);
+                    int cnt = UnityEngine.Random.Range(2, 6);
 
                     GameObject OakTemplate = Resources.Load<GameObject>("OakTemplate");
                     for (int k = 1; k <= cnt; k++) {
                         GameObject oak = Instantiate(OakTemplate);
-                        oak.GetComponent<Items>().DropToGround(GameObject.Find("Map").transform.Find("Row" + i.ToString()).Find("Tile" + j.ToString()).GetComponent<Tile>());
+                        oak.GetComponent<Items>().DropToGround(PointToTile(new Point(i, j)));
                     }
                 }
+                PointToTile(new Point(i, j)).ConsoleItem();
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Items : Init {
+public class Items : MonoBehaviour {
     public int itemCategory = 0; // Stores the category of the item
     public int itemType = 0; // Stores the type of the item
     public string itemName; // Stores the name of the item type
@@ -29,7 +29,7 @@ public class Items : Init {
     }
 
     void Update() {
-        ApplyGravity();
+        ApplyGravity(); // apply the gravity to the item
         if (!status) {
             if (rotate_around) RotateSelf();
             if (shift) ShiftToPosition();
@@ -45,12 +45,13 @@ public class Items : Init {
             this.transform.position += Physics.gravity * Time.deltaTime;
             //Debug.Log(currentTile.gameObject.GetComponent<Collider>().bounds.extents.y);
             //Debug.Log(currentTile.transform.position.y);
-            if (this.transform.position.y < currentTile.transform.position.y + currentTile.gameObject.GetComponent<Collider>().bounds.extents.y
-                                                                             + this.gameObject.GetComponent<Collider>().bounds.extents.y) {
-                this.transform.position = currentTile.transform.position
-                                        + Vector3.up * currentTile.gameObject.GetComponent<Collider>().bounds.extents.y
-                                        + Vector3.up * this.gameObject.GetComponent<Collider>().bounds.extents.y;
-                gravity = false;
+            if (this.transform.position.y < currentTile.transform.position.y                                 // center of the tile 
+                                          + currentTile.gameObject.GetComponent<Collider>().bounds.extents.y // halfHeight of the tile
+                                          + this.gameObject.GetComponent<Collider>().bounds.extents.y) {     // halfHeight of the item
+                this.transform.position = currentTile.transform.position                                                // center of the tile
+                                        + Vector3.up * currentTile.gameObject.GetComponent<Collider>().bounds.extents.y // halfHeight of the tile
+                                        + Vector3.up * this.gameObject.GetComponent<Collider>().bounds.extents.y;       // halfHeight of the item
+                gravity = false; // no longer requires gravity effect
             }
         }
     }
@@ -59,7 +60,7 @@ public class Items : Init {
     /// Get the basic data of the item.
     /// </summary>
     private void GetBasicInformation() {
-        Item item = ItemTemplate[itemCategory][itemType]; // Find the data of the item from array itemTemplate.
+        Data.Item item = Data.ItemTemplate[itemCategory][itemType]; // Find the data of the item from array itemTemplate (stored in class Init).
         itemName = item.name;
         itemMass = item.mass;
         itemRotateSpeed = item.rotateSpeed;
@@ -79,9 +80,8 @@ public class Items : Init {
     /// <param name="droppedFromPlayer"> If the tile is dropped from player. </param>
     public void DropToGround(Tile t) {
         currentTile = t; // set currentTile to t
-
-        has_tile_parent = true; // has a valid Tile parent
-        status = false; // on the ground
+        status = false;
+        has_tile_parent = true;
 
         this.gameObject.name = itemName + (++t.itemList[itemCategory, itemType]).ToString(); // add the item to tile's itemList and change name
         this.transform.parent = t.gameObject.transform;
@@ -115,29 +115,36 @@ public class Items : Init {
     /// <param name="playerInventory"></param>
     public void DropFromPlayerInventory(PlayerInventory playerInventory) {
         playerInventory.inventory[itemCategory, itemType]--; // delete the item from player's inventory
-        DropToGround(playerInventory.currentTile);
-        currentTile.ConsoleItem();
-    }
-
-    public void StartShifting(Vector3 target) {
-        shift = true;
-        shiftPosition = target;
+        DropToGround(playerInventory.currentTile); // drop the item on the Tile t
+        currentTile.ConsoleItem(); // because of new item adding, a sequence of shifting is needed
     }
 
     /// <summary>
-    /// Shift the item to the position target.
+    /// Start the shifting process of the current item and set the shiftPosition to target.
     /// </summary>
-    /// <param name="target"></param>
+    /// <param name="target">The position that the item is shifting to.</param>
+    public void StartShifting(Vector3 target) {
+        shift = true; // shifting sequence starts
+        shiftPosition = target; // set the target of the shifting
+    }
+
+    /// <summary>
+    /// Shift the item to the position shiftPosition.
+    /// </summary>
     private void ShiftToPosition() {
-        Vector3 deltaPosition = shiftPosition - this.transform.position;
-        deltaPosition.Normalize();
-        deltaPosition *= shiftSpeed * Time.deltaTime;
-        this.transform.position += deltaPosition;
-        if (Vector3.Distance(this.transform.position, shiftPosition) <= 0.005f) {
-            currentTile.RecvShiftComplete(this.gameObject);
+        Vector3 deltaPosition = shiftPosition - this.transform.position; // get the vector Δx by subtracting the two position vectors
+        deltaPosition.Normalize(); // normalize the vector to get the direction of the shifting
+        deltaPosition *= shiftSpeed * Time.deltaTime; // multiply by speed and time to get the movement in this frame
+        this.transform.position += deltaPosition; // apply the movement this frame
+        if (Vector3.Distance(this.transform.position, shiftPosition) <= 0.01f) { // nearly reaches the targetPosition
+            this.transform.position = shiftPosition; // set the item's position to shiftPosition, shifting completed
+            currentTile.RecvShiftComplete(this.gameObject); // tell the Tile that this item had completed shifting
         } 
     }
 
+    /// <summary>
+    /// Rotate the item around the center of the tile under it.
+    /// </summary>
     private void RotateAroundCenter() {
         this.transform.RotateAround(currentTile.gameObject.transform.position, Vector3.up, RotateCenterSpeed * Time.deltaTime);
     }

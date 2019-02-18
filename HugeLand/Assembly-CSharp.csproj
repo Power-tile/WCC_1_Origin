@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Resources\Scripts\CameraRotate.cs" />
+    <Compile Include="Assets\Resources\Scripts\Data.cs" />
     <Compile Include="Assets\Resources\Scripts\Init.cs" />
     <Compile Include="Assets\Resources\Scripts\Items.cs" />
     <Compile Include="Assets\Resources\Scripts\MenuScript.cs" />

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerMove : TacticsMove {
     public bool moving = false; // marking if the player is moving or not
+    public bool pathChecked = false; // if the potential path of the player is checked
     public float moveSpeed; // storing the movingspeed of the player
     public float jumpVelocity; // storing the jumpVelocity of the player
 
@@ -18,8 +19,8 @@ public class PlayerMove : TacticsMove {
 
     // Use this for initialization
     void Start() {
-        maxEyeOfPlayer = maxeye; // set player's eye point data to default
-        maxMoveOfPlayer = maxmove; // set player's move point data to default
+        maxEyeOfPlayer = Data.maxeye; // set player's eye point data to default
+        maxMoveOfPlayer = Data.maxmove; // set player's move point data to default
 
         moving = false; // player is not moving
         selfNumber = int.Parse(this.name.Split('r')[1]); // get the player's number from player's name
@@ -32,12 +33,12 @@ public class PlayerMove : TacticsMove {
 
     // Update is called once per frame
     void Update() {
-        if (currentPlayerNumber == selfNumber) {
+        if (Data.currentPlayerNumber == selfNumber) {
             Debug.DrawRay(transform.position, transform.forward); // debug ray, showing the player's facing direction
             ShowCurrentMovePoint(); // show the current move point of the player
 
             if (!moving) {
-                FindPath(this); // find the possible tiles which the player can go to
+                if (!pathChecked) FindPath(this); // find the possible tiles which the player can go to
                 CheckMouse(); // check the position of the mouse (showing move point cost and go to tile when clicked)
             } else {
                 Move(this); // complete the action of moving
@@ -61,7 +62,7 @@ public class PlayerMove : TacticsMove {
             } else if (now.tag == "Tile") { // mouse resting on tile directly
                 flag = true;
             } else { // mouse not resting on tile/select/fog
-
+                // do nothing
             }
 
             if (flag) { // now is a Tile
@@ -70,7 +71,9 @@ public class PlayerMove : TacticsMove {
                     has_value = true; // tile has a vaild move point cost value, player can move to this tile
                     text.text = t.movedis.ToString() + "  "; // show the cost of moving to this tile
 
-                    if (Input.GetMouseButtonUp(0)) MoveToTile(this, t); // if mouse clicked, move to this tile
+                    if (Input.GetMouseButtonUp(0)) { // mouse clicked
+                        MoveToTile(this, t); // move to the pointed tile
+                    }
                 }
             }
         }

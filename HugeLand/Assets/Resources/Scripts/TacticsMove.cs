@@ -11,16 +11,16 @@ public class TacticsMove : SwitchTurn {
     public List<Tile> eyelist = new List<Tile>(); // List of the tiles that the player can see
     public List<Tile> movelist = new List<Tile>(); // List of the tiles that the player can move to
 
-    public Point[,] prev = new Point[MapLen + 10, MapWid + 10];
+    public Data.Point[,] prev = new Data.Point[Data.MapLen + 10, Data.MapWid + 10]; // storing the previous Tile on the moving routine of Tile (i, j)
 
     private Tile currentTile; // marking the tile that the player is standing
-    private Point currentPoint; // storing the tile in a point form
+    private Data.Point currentPoint; // storing the tile in a point form
 
     private Tile targetTile; // marking the targetted tile
-    private Point targetPoint; // stroing the targetted tile in a point form
+    private Data.Point targetPoint; // stroing the targetted tile in a point form
 
     private Stack<Tile> path = new Stack<Tile>(); // storing the path to the targetted tile
-    private Stack<Point> pathPoint = new Stack<Point>(); // storing the path to the targetted tile in a point form
+    private Stack<Data.Point> pathPoint = new Stack<Data.Point>(); // storing the path to the targetted tile in a point form
 
     private float halfHeight = 0; // storing the half height of the current player
     private Vector3 velocity = new Vector3(); // storing the velocity of the current player
@@ -39,48 +39,46 @@ public class TacticsMove : SwitchTurn {
     /// Find the tiles that the players can see
     /// </summary>
     public void SpfaEye(Tile t, PlayerMove p) {
-        int[,] dis = new int[MapLen + 1, MapWid + 1];
-        bool[,] visited = new bool[MapLen + 10, MapWid + 10];
-        Queue<Point> q = new Queue<Point>();
+        int[,] dis = new int[Data.MapLen + 1, Data.MapWid + 1]; // the minimum moving distance between Tile t and Tile (i, j)
+        bool[,] visited = new bool[Data.MapLen + 10, Data.MapWid + 10]; // if Tile (i, j) is in Queue q
+        Queue<Data.Point> q = new Queue<Data.Point>(); // the queue used for Spfa algorithm
 
-        for (int i = 1; i <= MapLen; i++) {
-            for (int j = 1; j <= MapWid; j++) {
-                dis[i, j] = INF;
-                visited[i, j] = false;
+        for (int i = 1; i <= Data.MapLen; i++) {
+            for (int j = 1; j <= Data.MapWid; j++) {
+                dis[i, j] = Data.INF; // initialize distance to INFINITY at first
+                visited[i, j] = false; // not in queue
             }
         }
-        q.Clear();
+        q.Clear(); // initialize queue
 
-        dis[t.x, t.y] = 0;
-        Point push = new Point(t.x, t.y);
-        q.Enqueue(push);
-        visited[t.x, t.y] = true;
+        dis[t.x, t.y] = 0; // t is the starting tile, distance = 0
+        q.Enqueue(new Data.Point(t.x, t.y)); // push the tile t into the queue for checking the tiles beside it
+        visited[t.x, t.y] = true; // tile t is in the queue
 
-        while (q.Count > 0) {
-            Point u = q.Dequeue();
-            visited[u.x, u.y] = false;
+        while (q.Count > 0) { // queue not empty, updating required
+            Data.Point u = q.Dequeue(); // get top of the queue
+            visited[u.x, u.y] = false; // point u no longer in queue
 
-            for (int i = 0; i < 4; i++) {
-                Point v = new Point(u.x + dirx[i], u.y + diry[i]);
-                if (ValidTileForMoving(u, v)) {
-                    if (dis[u.x, u.y] + eyecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
-                        dis[v.x, v.y] = dis[u.x, u.y] + eyecost[MapType[v.x, v.y]];
-                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= p.maxEyeOfPlayer) {
-                            Point ppush = new Point(v.x, v.y);
-                            q.Enqueue(ppush);
-                            visited[v.x, v.y] = true;
+            for (int i = 0; i < 4; i++) { // going thru the four tiles around point u
+                Data.Point v = new Data.Point(u.x + dirx[i], u.y + diry[i]); // calculate the row and column of the point
+                if (ValidTileForMoving(u, v)) { // point is valid
+                    if (dis[u.x, u.y] + Data.eyecost[Data.MapType[v.x, v.y]] < dis[v.x, v.y]) { // relaxation operation
+                        dis[v.x, v.y] = dis[u.x, u.y] + Data.eyecost[Data.MapType[v.x, v.y]]; // refresh minimum distance
+                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= p.maxEyeOfPlayer) { // point v not in queue
+                            Data.Point ppush = new Data.Point(v.x, v.y); // v in point form
+                            q.Enqueue(ppush); // add v into queue
+                            visited[v.x, v.y] = true; // record enqueue operation
                         }
                     }
                 }
             }
         }
 
-        for (int i = 1; i <= MapLen; i++) {
-            for (int j = 1; j <= MapWid; j++) {
-                GameObject.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject.GetComponent<Tile>().eyedis = dis[i, j];
+        for (int i = 1; i <= Data.MapLen; i++) {
+            for (int j = 1; j <= Data.MapWid; j++) {
+                Init.PointToTile(new Data.Point(i, j)).eyedis = dis[i, j];
                 if (dis[i, j] <= p.maxEyeOfPlayer) {
-                    GameObject row = GameObject.Find("Row" + i.ToString());
-                    GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
+                    GameObject tile = Init.PointToTile(new Data.Point(i, j)).gameObject;
                     eyelist.Add(tile.GetComponent<Tile>());
                     tile.GetComponent<Tile>().insight = true;
                     tile.GetComponent<Tile>().eyedis = dis[i, j];
@@ -93,36 +91,36 @@ public class TacticsMove : SwitchTurn {
     /// Find the tiles that the players can move to.
     /// </summary>
     public void SpfaMove(Tile t, PlayerMove p) {
-        int[,] dis = new int[MapLen + 10, MapWid + 10];
-        bool[,] visited = new bool[MapLen + 1, MapWid + 1];
-        Queue<Point> q = new Queue<Point>();
+        int[,] dis = new int[Data.MapLen + 10, Data.MapWid + 10];
+        bool[,] visited = new bool[Data.MapLen + 1, Data.MapWid + 1];
+        Queue<Data.Point> q = new Queue<Data.Point>();
 
-        for (int i = 1; i <= MapLen; i++) {
-            for (int j = 1; j <= MapWid; j++) {
-                dis[i, j] = INF;
+        for (int i = 1; i <= Data.MapLen; i++) {
+            for (int j = 1; j <= Data.MapWid; j++) {
+                dis[i, j] = Data.INF;
                 visited[i, j] = false;
-                prev[i, j] = new Point(0, 0);
+                prev[i, j] = new Data.Point(0, 0);
             }
         }
         q.Clear();
 
         dis[t.x, t.y] = 0;
-        Point push = new Point(t.x, t.y);
+        Data.Point push = new Data.Point(t.x, t.y);
         q.Enqueue(push);
         visited[t.x, t.y] = true;
 
         while (q.Count > 0) {
-            Point u = q.Dequeue();
+            Data.Point u = q.Dequeue();
             visited[u.x, u.y] = false;
 
             for (int i = 0; i < 4; i++) {
-                Point v = new Point(u.x + dirx[i], u.y + diry[i]);
+                Data.Point v = new Data.Point(u.x + dirx[i], u.y + diry[i]);
                 if (ValidTileForMoving(u, v)) {
-                    if (dis[u.x, u.y] + movecost[MapType[v.x, v.y]] < dis[v.x, v.y]) {
-                        dis[v.x, v.y] = dis[u.x, u.y] + movecost[MapType[v.x, v.y]];
-                        prev[v.x, v.y] = new Point(u.x, u.y); // Record path
-                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= p.currentMoveOfPlayer) { /// !!! Change to p.currentMoveOfPlayer after turned
-                            Point ppush = new Point(v.x, v.y);
+                    if (dis[u.x, u.y] + Data.movecost[Data.MapType[v.x, v.y]] < dis[v.x, v.y]) {
+                        dis[v.x, v.y] = dis[u.x, u.y] + Data.movecost[Data.MapType[v.x, v.y]];
+                        prev[v.x, v.y] = new Data.Point(u.x, u.y); // Record path
+                        if (!visited[v.x, v.y] && dis[v.x, v.y] <= p.currentMoveOfPlayer) {
+                            Data.Point ppush = new Data.Point(v.x, v.y);
                             q.Enqueue(ppush);
                             visited[v.x, v.y] = true;
                         }
@@ -131,10 +129,10 @@ public class TacticsMove : SwitchTurn {
             }
         }
 
-        for (int i = 1; i <= MapLen; i++) {
-            for (int j = 1; j <= MapWid; j++) {
+        for (int i = 1; i <= Data.MapLen; i++) {
+            for (int j = 1; j <= Data.MapWid; j++) {
                 GameObject.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject.GetComponent<Tile>().movedis = dis[i, j];
-                if (dis[i, j] <= p.currentMoveOfPlayer && PointToTile(new Point(i, j)).insight) {
+                if (dis[i, j] <= p.currentMoveOfPlayer && Init.PointToTile(new Data.Point(i, j)).insight) {
                     GameObject row = GameObject.Find("Row" + i.ToString());
                     GameObject tile = row.transform.Find("Tile" + j.ToString()).gameObject;
                     movelist.Add(tile.GetComponent<Tile>());
@@ -150,7 +148,7 @@ public class TacticsMove : SwitchTurn {
     /// </summary>
     /// <param name="player"> The required player. </param>
     public void GetCurrentTile(GameObject player) {
-        currentTile = GetTileUnderObject(player); // get the tile under the currentPlayer
+        currentTile = Init.GetTileUnderObject(player); // get the tile under the currentPlayer
         currentTile.current = true; // player is standing on this tile, show green select sign
     }
 
@@ -159,18 +157,20 @@ public class TacticsMove : SwitchTurn {
     /// </summary>
     public void FindPath(PlayerMove p) {
         GetCurrentTile(p.gameObject);
-        currentPoint = new Point(currentTile.x, currentTile.y);
+        currentPoint = new Data.Point(currentTile.x, currentTile.y);
 
         SpfaEye(currentTile, p);
         SpfaMove(currentTile, p);
+
+        p.pathChecked = true;
     }
 
     /// <summary>
     /// Check if point q exists in map and the height difference of tile p and tile q is smaller than 2.
     /// </summary>
-    public bool ValidTileForMoving(Point p, Point q) {
-        return q.x > 0 && q.x <= MapLen && q.y > 0 && q.y <= MapWid
-            && Mathf.Abs(PointToTile(p).gameObject.transform.position.y - PointToTile(q).gameObject.transform.position.y) <= 2;
+    public bool ValidTileForMoving(Data.Point p, Data.Point q) {
+        return q.x > 0 && q.x <= Data.MapLen && q.y > 0 && q.y <= Data.MapWid
+            && Mathf.Abs(Init.PointToTile(p).gameObject.transform.position.y - Init.PointToTile(q).gameObject.transform.position.y) <= 2;
     }
 
     /// <summary>
@@ -187,16 +187,16 @@ public class TacticsMove : SwitchTurn {
         text.text = "0  ";
 
         // Finding the path from player's current position to the target position
-        targetPoint = new Point(t.x, t.y);
+        targetPoint = new Data.Point(t.x, t.y);
         pathPoint.Push(targetPoint);
-        path.Push(PointToTile(targetPoint));
-        Point now = targetPoint;
+        path.Push(Init.PointToTile(targetPoint));
+        Data.Point now = targetPoint;
         while (now != currentPoint) {
-            Point tmp = now;
+            Data.Point tmp = now;
             now = prev[tmp.x, tmp.y];
-            PointToTile(tmp).parent = PointToTile(now);
+            Init.PointToTile(tmp).parent = Init.PointToTile(now);
             pathPoint.Push(now);
-            path.Push(PointToTile(now));
+            path.Push(Init.PointToTile(now));
         }
     }
 
@@ -230,6 +230,7 @@ public class TacticsMove : SwitchTurn {
         }
         else {
             p.moving = false;
+            p.pathChecked = false;
 
             RemoveInSightTiles();
             RemoveSelectableTiles();

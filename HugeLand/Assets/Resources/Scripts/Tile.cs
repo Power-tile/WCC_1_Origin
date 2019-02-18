@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : Init {
+public class Tile : MonoBehaviour {
     public bool walkable; // true - can get on
     public bool current; // mark if the player is standing on this tile
     public int type; // terrain type
@@ -19,7 +19,7 @@ public class Tile : Init {
     public Tile parent; // used when moving to targetted tile
 
     public int itemCount = 0;
-    public int[,] itemList = new int[itemMaxCategory, itemMaxType]; // recording the list of the items on this Tile
+    public int[,] itemList = new int[Data.itemMaxCategory, Data.itemMaxType]; // recording the list of the items on this Tile
     public GameObject[] itemListInGameObject = new GameObject[500]; // storing the items on this Tile in GameObject form
     public Vector3[] itemPosition = new Vector3[500]; // storing the items' desired init position when shifting
     public bool[] shiftComplete = new bool[500]; // if an item has completed the process of shifting
@@ -47,14 +47,18 @@ public class Tile : Init {
             select.SetActive(false);
         }
 
-        if (this.transform.position.y < 0) {
-            exist = false;
-            walkable = false;
+        /// ?? needed to be reconsidered: how to judge if a tile is in the water (in the imported map) ??
+        if (this.transform.position.y < 0) { // temporary judge: if the tile is still under the water
+            exist = false; // tile no longer exists
+            walkable = false; // tile cannot be walked
         }
 
         if (onShift) CheckShiftComplete();
     }
 
+    /// <summary>
+    /// The initialization of the tile.
+    /// </summary>
     public void Initialize() {
         walkable = true;
         current = false;
@@ -65,11 +69,11 @@ public class Tile : Init {
         selected = false;
         current = false;
 
-        eyedis = INF;
-        movedis = INF;
+        eyedis = Data.INF;
+        movedis = Data.INF;
 
-        for (int i = 0; i < itemMaxCategory; i++) {
-            for (int j = 0; j < itemMaxType; j++) {
+        for (int i = 0; i < Data.itemMaxCategory; i++) {
+            for (int j = 0; j < Data.itemMaxType; j++) {
                 itemList[i, j] = 0;
             }
         }
@@ -90,15 +94,15 @@ public class Tile : Init {
         }
         itemCount++; // 0~itemCount-1 storing items; itemCount++ to get exact number of items
 
-        Complex complex = new Complex(0, 0); // storing the complex number for position calculating
+        Data.Complex complex = new Data.Complex(0, 0); // storing the complex number for position calculating
         for (int i = 0; i < itemCount; i++) {
             GameObject currentGameObject = itemListInGameObject[i]; // i-th item on this Tile
             if (i == 0) { // the first item
-                if (itemCount != 1) complex = new Complex(System.Math.Cos(2 * System.Math.PI / itemCount),
+                if (itemCount != 1) complex = new Data.Complex(System.Math.Cos(2 * System.Math.PI / itemCount),
                                                           System.Math.Sin(2 * System.Math.PI / itemCount)); // first position, more than 1 item
                 //else complex = new Complex(0, 0); // only one item
             } else { // not first item
-                complex *= new Complex(System.Math.Cos(2 * System.Math.PI / itemCount),
+                complex *= new Data.Complex(System.Math.Cos(2 * System.Math.PI / itemCount),
                                        System.Math.Sin(2 * System.Math.PI / itemCount)); // shiftPosition for i-th item
             }
 
@@ -117,24 +121,24 @@ public class Tile : Init {
     }
 
     public void CheckShiftComplete() {
-        bool complete = true;
+        bool complete = true; // true - all item shifting completed; false - !true
         for (int i = 0; i < itemCount; i++) {
-            if (!shiftComplete[i]) {
-                complete = false;
-                break;
+            if (!shiftComplete[i]) { // item i shifting sequence incomplete
+                complete = false; // still not completed
+                break; // no need to check further, break checking sequence
             }
         }
-        if (complete) {
-            onShift = false;
+        if (complete) { // all item shifting completed
+            onShift = false; // no longer in shift sequence
             for (int i = 0; i < itemCount; i++) {
-                itemListInGameObject[i].GetComponent<Items>().shift = false;
+                itemListInGameObject[i].GetComponent<Items>().shift = false; // close the shifting command of all items, item start center-rotation
             }
         }
     }
 
-    public void RecvShiftComplete(GameObject gameObject) {
+    public void RecvShiftComplete(GameObject item) {
         for (int i = 0; i < itemCount; i++) {
-            if (itemListInGameObject[i] == gameObject) {
+            if (itemListInGameObject[i] == item) {
                 shiftComplete[i] = true;
                 break;
             }

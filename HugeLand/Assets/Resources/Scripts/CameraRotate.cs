@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CameraRotate : Init {
+public class CameraRotate : MonoBehaviour {
 
     public static float[] differ_x = new float[7] { 30, 30, 30, 30, 30, 30, 30 };
     public static float[] differ_y = new float[7] { 0, 0, 0, 0, 0, 0, 0 };
@@ -47,7 +47,7 @@ public class CameraRotate : Init {
     }
 
     void Update() {
-        int n = currentPlayerNumber;
+        int n = Data.currentPlayerNumber;
 
         //int flag_x = 0; // -1: differ_x[n]-=3f; 1: differ_x[n]+=3f
         //int flag_y = 0; // -1: differ_y[n]-=3f; 1: differ_y[n]+=3f
@@ -92,14 +92,14 @@ public class CameraRotate : Init {
         float cos = (float)System.Math.Cos((double)differ_x[n] / 180 * 3.1415926);
         Vector3 vector2 = vector1;
         vector2.y = cos * y - sin * z;
-        vector2.z = cos * z + sin * y; //vector rotate differ_y[n] around y axis
+        vector2.z = cos * z + sin * y; // vector rotate differ_y[n] around y axis
         float x = vector2.x;
         z = vector2.z;
         sin = (float)System.Math.Sin((double)differ_y[n] / 180 * 3.1415926);
         cos = (float)System.Math.Cos((double)differ_y[n] / 180 * 3.1415926);
         Vector3 vector3 = vector2;
         vector3.x = cos * x + sin * z;
-        vector3.z = cos * z - sin * x; //vector rotate differ_x[n] around y axis
+        vector3.z = cos * z - sin * x; // vector rotate differ_x[n] around y axis
         CameraPos = PlayerPos + vector3;
         player.transform.Find("Camera").gameObject.transform.position = CameraPos;
 

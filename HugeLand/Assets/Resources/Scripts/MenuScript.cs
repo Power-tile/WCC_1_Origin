@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public class MenuScript : Init {
+public class MenuScript : MonoBehaviour {
     //This is only for assigning the names and positions of the first tiles; DO NOT REUSE.
     /*
     [MenuItem("Tools/Assign First Row Tile")]
@@ -77,12 +77,12 @@ public class MenuScript : Init {
         GameObject FogTemplate = Resources.Load<GameObject>("Fog");
         GameObject SelectTemplate = Resources.Load<GameObject>("Select");
 
-        for (int i = 1; i <= MapLen; i++) {
+        for (int i = 1; i <= Data.MapLen; i++) {
             GameObject row = new GameObject();
             row.name = "Row" + i.ToString();
             row.transform.parent = map.transform;
             row.transform.position = Vector3.right * (i - 1);
-            for (int j = 1; j <= MapWid; j++) {
+            for (int j = 1; j <= Data.MapWid; j++) {
                 //GameObject tile = Instantiate(Resources.Load<GameObject>("shity-0.obj"));
                 GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 tile.name = "Tile" + j.ToString();
@@ -90,11 +90,11 @@ public class MenuScript : Init {
                 tile.tag = "Tile";
                 tile.transform.position = row.transform.position + Vector3.forward * (j - 1);
                 ///*
-                if (!(i == 1 && j == 1 || i == 1 && j == MapWid || i == MapLen && j == 1 || i == MapLen && j == MapWid)) {
+                if (!(i == 1 && j == 1 || i == 1 && j == Data.MapWid || i == Data.MapLen && j == 1 || i == Data.MapLen && j == Data.MapWid)) {
                     tile.transform.position += Vector3.up * (float)(
-                                                System.Math.Sqrt(MapLen * MapLen / 4 + MapWid * MapWid / 4)
-                                                - System.Math.Sqrt((i - MapLen / 2) * (i - MapLen / 2)
-                                                                 + (j - MapWid / 2) * (j - MapWid / 2))
+                                                System.Math.Sqrt(Data.MapLen * Data.MapLen / 4 + Data.MapWid * Data.MapWid / 4)
+                                                - System.Math.Sqrt((i - Data.MapLen / 2) * (i - Data.MapLen / 2)
+                                                                 + (j - Data.MapWid / 2) * (j - Data.MapWid / 2))
                                                                                                      ) / 3;
                     tile.transform.position += Vector3.up * UnityEngine.Random.Range(-0.5f, 0.5f);
                 }
@@ -283,12 +283,13 @@ public class MenuScript : Init {
                         tile.GetComponent<Tile>().x = i;
                         tile.GetComponent<Tile>().y = j;
 
-                        GameObject fog = Instantiate(FogTemplate);
+                        GameObject fog = GameObject.CreatePrimitive(PrimitiveType.Cube);
                         fog.name = "Fog";
                         fog.transform.parent = tile.transform;
                         fog.transform.position = tile.transform.position + Vector3.up * 1;
                         DestroyImmediate(fog.GetComponent<MeshCollider>());
                         fog.tag = "Fog";
+                        fog.GetComponent<MeshRenderer>().material.color = Color.gray;
                         //fog.AddComponent<BoxCollider>();
 
                         GameObject select = Instantiate(SelectTemplate);
@@ -319,12 +320,36 @@ public class MenuScript : Init {
 
     [MenuItem("Tools/Toggle Fog and Select")]
     public static void ToggleFogAndSelect() {
-        for (int i = 1; i <= MapLen; i++) {
-            for (int j = 1; j <= MapWid; j++) {
+        GameObject MeshMap = GameObject.Find("MeshMap");
+        for(int i=0;i<MeshMap.transform.childCount;i++)
+            for(int j=0;j<MeshMap.transform.GetChild(i).transform.childCount;j++)
+            {
+                GameObject MeshTile = MeshMap.transform.GetChild(i).transform.GetChild(j).gameObject;
+                MeshTile.AddComponent<MeshCollider>();
+                MeshTile.GetComponent<MeshCollider>().convex = true;
+            }
+        for (int i = 1; i <= Data.MapLen; i++) {
+            for (int j = 1; j <= Data.MapWid; j++) {
                 GameObject tile = GameObject.Find("Map").transform.Find("Row" + i.ToString()).transform.Find("Tile" + j.ToString()).gameObject;
-                tile.transform.Find("Fog").localPosition += (tile.GetComponent<Collider>().bounds.extents.y + 1.0f) * Vector3.up;
-                tile.transform.Find("Select").localPosition += (tile.GetComponent<Collider>().bounds.extents.y) * Vector3.up;
+
+                float height = 0;
+                Ray ray = new Ray(new Vector3(i - 0.5f, 25, j - 0.5f), new Vector3(0, -1, 0));
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    height = hit.point.y;
+                }
+
+                tile.transform.Find("Fog").transform.localScale = new Vector3(1, height + 0.2f, 1);
+                tile.transform.Find("Fog").transform.position = new Vector3(i - 0.5f, height / 2 + 0.1f, j - 0.5f);
+                tile.transform.Find("Select").transform.position = new Vector3(i - 0.5f, tile.GetComponent<BoxCollider>().size.y + 0.1f, j - 0.5f);
             }
         }
+        for (int i = 0; i < MeshMap.transform.childCount; i++)
+            for (int j = 0; j < MeshMap.transform.GetChild(i).transform.childCount; j++)
+            {
+                GameObject MeshTile = MeshMap.transform.GetChild(i).transform.GetChild(j).gameObject;
+                DestroyImmediate(MeshTile.GetComponent<MeshCollider>());
+            }
     }
 }
